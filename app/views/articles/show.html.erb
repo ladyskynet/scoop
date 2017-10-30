@@ -1,0 +1,132 @@
+<!--<h1>Articles#show</h1>
+<p>Find me in app/views/articles/show.html.erb</p>-->
+
+<!--#app/views/articles/show.html.erb-->
+<!DOCTYPE HTML>
+<!--
+	Directive by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Scoop</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../../assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Header -->
+		<div id="header">
+			<!--<span class="logo icon fa-paper-plane-o"></span>-->
+			<img src="../../../images/scoop.png" height="125" width="125"> 
+			<h1>Hi. This is Scoop.</h1>
+			<p>A custom RSS reader. </p>
+		</div>
+
+		<!-- MAIN --> 
+		<div id="main">
+			<div class="box container">
+				<section>
+					<header>
+						<h3><%=@article.title%> by <%=@article.author%></h3>
+					</header>
+					<form method="post" action="#">
+						<div class="row">
+							<div class="12u">
+								<label for="title">Title</label>
+								<input class="text" type="text" name="title" id="title" value="<%=@article.title%>" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="12u">
+								<label for="author">Author</label>
+								<input class="text" type="text" name="author" id="author" value="<%=@article.author%>" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="12u">
+								<label for="published">Published</label>
+								<input class="text" type="text" name="published" id="published" value="<%=@article.published%>" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="12u">
+								<label for="content">Content</label>
+								<textarea name="content" rows="6"><%= @article.content?.html_safe? %></textarea>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="12u">
+								<ul class="actions">
+									<li><%= link_to 'Back', articles_path %></li>
+								</ul>
+							</div>
+						</div>
+					</form>
+				</section>
+			</div>
+		</div>
+		<!-- Footer -->
+			<div id="footer">
+				<div class="container 75%">
+
+					<header class="major last">
+						<h2>Questions or comments?</h2>
+					</header>
+
+					<p>Send us a message.</p>
+
+					<form method="post" action="#">
+						<div class="row">
+							<div class="6u 12u(mobilep)">
+								<input type="text" name="name" placeholder="Name" />
+							</div>
+							<div class="6u 12u(mobilep)">
+								<input type="email" name="email" placeholder="Email" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="12u">
+								<textarea name="message" placeholder="Message" rows="6"></textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="12u">
+								<ul class="actions">
+									<li><input type="submit" value="Send Message" /></li>
+								</ul>
+							</div>
+						</div>
+					</form>
+
+					<ul class="icons">
+						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
+						<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+					</ul>
+
+					<ul class="copyright">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+
+				</div>
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../../assets/js/jquery.min.js"></script>
+			<script src="../../../assets/js/skel.min.js"></script>
+			<script src="../../../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../../../assets/js/main.js"></script>
+		
+	</body>
+</html>
+
+

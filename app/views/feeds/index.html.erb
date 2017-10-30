@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<!--
+  Directive by HTML5 UP
+  html5up.net | @ajlkn
+  Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+  <head>
+    <title>Scoop RSS Feeds</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="assets/main.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+  </head>
+  <body>
+
+    <!-- Header -->
+    
+    <div id="header">
+      <img src="images/scoop.png" height="125" width="125"> 
+      <h1>Scoop.</h1>
+      <p>A custom RSS reader.</p>
+    </div>
+
+    <!-- Main -->
+
+    <div id="main">
+
+      <!-- TABLE SECTION-->
+
+      <section>
+        <p id="notice"><%= notice %></p>
+        <div class="box container">
+          <header>
+            <h2>RSS Feeds</h2>
+          </header>
+          <div class="table-wrapper">
+            <table class="default">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Actions</th>
+                  <th colspan="3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @feeds.each do |feed| %>
+                <tr>
+                  <td><%= feed.name %></td>
+                  <td><%= link_to 'Show', feed %></td>
+                  <td><%= link_to 'Edit', edit_feed_path(feed) %></td>
+                  <td><%= link_to 'Destroy', feed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <br>
+          <%= link_to 'New Feed', new_feed_path %>
+        </div>
+      </section>
+
+      <!-- OTHER STUFF-->
+      <!--
+      <section>
+        <header>
+          <h3>Form</h3>
+        </header>
+        <form method="post" action="#">
+          <div class="row">
+            <div class="6u 12u(mobilep)">
+              <label for="name">Name</label>
+              <input class="text" type="text" name="name" id="name" value="" placeholder="John Doe" />
+            </div>
+            <div class="6u 12u(mobilep)">
+              <label for="email">Email</label>
+              <input class="text" type="text" name="email" id="email" value="" placeholder="johndoe@domain.tld" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="12u">
+              <label for="subject">Subject</label>
+              <input class="text" type="text" name="subject" id="subject" value="" placeholder="Enter your subject" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="12u">
+              <label for="subject">Message</label>
+              <textarea name="message" id="message" placeholder="Enter your message" rows="6"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="12u">
+              <ul class="actions">
+                <li><input type="submit" value="Send" /></li>
+                <li><input type="reset" value="Reset" class="alt" /></li>
+              </ul>
+            </div>
+          </div>
+        </form>
+      </section>
+    -->
+    </div>
+
+    <!--<footer class="major container 75%">
+      <h3>Get shady with science</h3>
+      <p>Vitae natoque dictum etiam semper magnis enim feugiat amet curabitur tempor orci penatibus. Tellus erat mauris ipsum fermentum etiam vivamus.</p>
+      <ul class="actions">
+        <li><a href="#" class="button">Join our crew</a></li>
+      </ul>
+    </footer>-->
+  
+    <!-- Footer -->
+    <div id="footer">
+      <div class="container 75%">
+        <header class="major last">
+          <h2>Questions or comments?</h2>
+        </header>
+
+        <p>Send us a message.</p>
+
+        <form method="post" action="#">
+          <div class="row">
+            <div class="6u 12u(mobilep)">
+              <input type="text" name="name" placeholder="Name" />
+            </div>
+            <div class="6u 12u(mobilep)">
+              <input type="email" name="email" placeholder="Email" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="12u">
+              <textarea name="message" placeholder="Message" rows="6"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="12u">
+              <ul class="actions">
+                <li><input type="submit" value="Send Message" /></li>
+              </ul>
+            </div>
+          </div>
+        </form>
+        <ul class="icons">
+          <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+          <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+          <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+          <li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
+          <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+        </ul>
+
+        <ul class="copyright">
+          <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/jquery.min.js"></script>
+    <script src="assets/skel.min.js"></script>
+    <script src="assets/util.js"></script>
+    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="assets/main.js"></script>
+  </body>
+</html>
