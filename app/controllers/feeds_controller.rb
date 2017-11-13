@@ -33,18 +33,22 @@ def search
   rescue
     @feeds_selected = Feed.all
   end
-  open('/Users/tyleryake/Desktop/outputFile3.txt', 'a') { |f|
+
+  open('/Users/ecombs/Documents/outputFile3.txt', 'a') { |f|
   #f.puts "Title" }
   @feeds_selected.each do |feed|
     #Finds all articles that have relevant results
     @article_results = feed.articles.search_for(params[:search]).each {|article|}
-    open('/Users/tyleryake/Desktop/outputFile3.txt', 'a') { |f|
+    open('/Users/ecombs/Documents/outputFile3.txt', 'a') { |f|
       #Puts the results into a file
       @article_results.each do |articlebaby|
         f.puts (articlebaby.title)
       end
     }
   end
+
+  @feeds_selected = Feed.all
+end
 
   # POST /feeds
   # POST /feeds.json
