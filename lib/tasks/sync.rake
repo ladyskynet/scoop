@@ -6,8 +6,11 @@ require 'odyssey'
 AutoTagging.services = [:yahoo]
 
 namespace :sync do
+  # For all feeds gather new articles
   task feeds: [:environment] do
+    # On each feed do
     Feed.all.each do |feed|
+      # Fetch article content if URL exists
       content = Feedjira::Feed.fetch_and_parse feed.url
       content.entries.each do |entry|
         puts entry.url
