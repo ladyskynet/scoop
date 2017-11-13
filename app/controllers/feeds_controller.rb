@@ -24,18 +24,26 @@ class FeedsController < ApplicationController
   def welcome
   end
 
-  def search
-    @feeds = Feed.all
-    open('/Users/ecombs/Documents/outputFile3.rb', 'a') { |f|
-        f.puts "Title" }
-    @feeds.each do |feed|
-      @article_results = feed.articles.search_for(params[:search]).each {|article|}
-      open('/Users/ecombs/Documents/outputFile3.rb', 'a') { |f|
-        @article_results.each do |articlebaby|
-          f.puts (articlebaby.title)
-        end
-      }
-    end
+def search
+  begin
+    #Finds the feeds that were selcted by checkboxes
+    @selected = params[:selected]
+    @feeds_selected = Feed.find(@selected)
+    #Handles if no feeds were selected
+  rescue
+    @feeds_selected = Feed.all
+  end
+  open('/Users/tyleryake/Desktop/outputFile3.txt', 'a') { |f|
+  #f.puts "Title" }
+  @feeds_selected.each do |feed|
+    #Finds all articles that have relevant results
+    @article_results = feed.articles.search_for(params[:search]).each {|article|}
+    open('/Users/tyleryake/Desktop/outputFile3.txt', 'a') { |f|
+      #Puts the results into a file
+      @article_results.each do |articlebaby|
+        f.puts (articlebaby.title)
+      end
+    }
   end
 
   # POST /feeds
@@ -43,14 +51,17 @@ class FeedsController < ApplicationController
   def create
     @feed = Feed.new(feed_params)
     respond_to do |format|
+      #Checks if given url has already been used in another feed
       results = Feed.all.search_url(feed_params[:url])
       if results.present?
         #format.html { render :new, notice: 'That url has already been used for a previous feed' }
         format.html { redirect_to @feed, notice: 'The url already been used for a previous feed, not saved' }
         format.json { render json: @feed.errors, status: :unprocessable_entity }
       else
+        #Checks to see if given url is a valid rss feed
         if Feed.validate_feed(feed_params[:url])
           if @feed.save
+            #Saves the feed to the database if url is valid
             format.html { redirect_to @feed, notice: 'Feed was successfully created.' }
             format.json { render :show, status: :created, location: @feed }
           else
@@ -58,6 +69,7 @@ class FeedsController < ApplicationController
             format.json { render json: @feed.errors, status: :unprocessable_entity }
           end
         else
+          #Gives an error if rss feed is not valid
           format.html { redirect_to @feed, notice: 'The given url is not a valid rss feed' }
           format.json { render json: @feed.errors, status: :unprocessable_entity }
         end

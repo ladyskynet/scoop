@@ -32,10 +32,21 @@
 					</header>
 					<div>
   						Search:<br>
-  						<%= form_tag(search_path, :method => "get", id: "search-form") do %>
-    						<%= text_field_tag :search, params[:search], placeholder: "Search" %> <br />
-    						<%= submit_tag "Search", :name => nil %>
-  						<% end %>
+            			<!-- Creates search box user can type queries into-->
+                        <%= form_tag(search_path, :method => "get", id: "search-form") do %>
+                            <%= text_field_tag :search, params[:search], placeholder: "Search" %> <br />
+                            <%= submit_tag "Search", :name => nil %>
+                			<tbody>
+                				<!--Creates checkboxes for each feed-->
+                				<% @feeds_selected.each do |feed| %>
+                    				<tr>
+                      					<!-- Puts all feeds that were marked true into an array referenced through selected[]-->
+                      					<%= check_box_tag :"selected[]", feed.id, false %>
+                     					<td><%= feed.name %></td>
+                    				</tr>
+                    			<% end %>
+                    		</tbody>
+                        <% end %>
 					</div>
 				</section>
 			</div>
