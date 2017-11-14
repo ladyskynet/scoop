@@ -21,14 +21,12 @@ namespace :sync do
       content.entries.each do |entry|
         article_content = ""
         local_entry = Article.find_by title: entry.title
-
         if local_entry.nil?
           p "Creating a new Article!"
           local_entry = Article.new(author: entry.author, url: entry.url, published: entry.published, title: entry.title, feed_id: feed.id)
           begin
             page = a.get(entry.url)
-            #p ("URL: "+entry.url)
-            #p "mecha"
+            #puts page.content
           rescue Exception => e
             p e.message
           end
@@ -36,7 +34,7 @@ namespace :sync do
           if page.nil?
             begin
               page = Nokogiri::HTML(open(entry.url))
-              #p "noko"
+              p "noko"
             rescue Exception => e
               p e.message
             end
@@ -45,7 +43,7 @@ namespace :sync do
             # p ("Paragraph: "+paragraph)
             article_content += " " + paragraph
           end
-          # puts ("Article Content: " + article_content)
+          #puts ("Article Content: " + article_content)
           total_readability = Odyssey.flesch_kincaid_re(article_content, true)
           local_entry.update_attributes(wordcount: total_readability['word_count'], readability: total_readability['score'], content: article_content)  
           begin
@@ -53,8 +51,6 @@ namespace :sync do
           rescue Exception => e
             p e.message
           end
-        else
-          p "FOUND IT"
         end
         p "Synced Entry - #{entry.title}"
         # p local_entry.wordcount

@@ -27,6 +27,8 @@ gem 'odyssey'
 gem 'open_uri_redirections'
 gem 'words_counted'
 gem 'mechanize'
+gem 'twitter-bootstrap-rails'
+gem 'paperclip'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'

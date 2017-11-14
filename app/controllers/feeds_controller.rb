@@ -72,22 +72,26 @@ class FeedsController < ApplicationController
       results = Feed.all.search_url(feed_params[:url])
       if results.present?
         #format.html { render :new, notice: 'That url has already been used for a previous feed' }
-        format.html { redirect_to @feed, notice: 'The URL entered has already been used for a previous feed. Please use a unique URL.' }
+        flash[:danger] = "That URL has already been used. Please use a unique URL."
+        format.html { redirect_to @feed }
         format.json { render json: @feed.errors, status: :unprocessable_entity }
       else
         #Checks to see if given url is a valid rss feed
         if Feed.validate_feed(feed_params[:url])
           if @feed.save
+            flash[:success] = "Feed was successfully created."
             #Saves the feed to the database if url is valid
-            format.html { redirect_to @feed, notice: 'Feed was successfully created.' }
+            format.html { redirect_to @feed }
             format.json { render :show, status: :created, location: @feed }
           else
-            format.html { render :new, notice: 'The URL entered has already been used for a previous feed. Please use a unique URL.' }
+            flash[:danger] = "That URL has already been used. Please use a unique URL."
+            format.html { render :new }
             format.json { render json: @feed.errors, status: :unprocessable_entity }
           end
         else
           #Gives an error if rss feed is not valid
-          format.html { redirect_to @feed, notice: 'The entered URL is not a valid RSS feed' }
+          flash[:danger] = "The entered URL is not a valid RSS feed."
+          format.html { redirect_to @feed }
           format.json { render json: @feed.errors, status: :unprocessable_entity }
         end
       end
