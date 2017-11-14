@@ -28,12 +28,25 @@
 			<div class="box container">
 				<section>
 					<header>
-						<h3>New Feed</h3>
+						<h3>Search the Feeds</h3>
 					</header>
 					<div>
-						<%= render 'form', feed: @feed %>
-						<%= link_to 'Show', @feed %>
-						<%= link_to 'Back', feeds_path %>
+  						Search:<br>
+            			<!-- Creates search box user can type queries into-->
+                        <%= form_tag(search_path, :method => "get", id: "search-form") do %>
+                            <%= text_field_tag :search, params[:search], placeholder: "Search" %> <br />
+                            <%= submit_tag "Search", :name => nil %>
+                			<tbody>
+                				<!--Creates checkboxes for each feed-->
+                				<% @feeds_selected.each do |feed| %>
+                    				<tr>
+                      					<!-- Puts all feeds that were marked true into an array referenced through selected[]-->
+                      					<%= check_box_tag :"selected[]", feed.id, false %><br>
+                     					<td><%= feed.name %></td>
+                    				</tr>
+                    			<% end %>
+                    		</tbody>
+                        <% end %>
 					</div>
 				</section>
 			</div>
@@ -95,7 +108,4 @@
 		
 	</body>
 </html>
-
-
-
 

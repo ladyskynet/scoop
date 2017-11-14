@@ -1,3 +1,5 @@
+require 'csv'
+
 class FeedsController < ApplicationController
   before_action :set_feed, only: [:show, :edit, :update, :destroy]
 
@@ -24,31 +26,58 @@ class FeedsController < ApplicationController
   def welcome
   end
 
-def search
-  begin
-    #Finds the feeds that were selcted by checkboxes
-    @selected = params[:selected]
-    @feeds_selected = Feed.find(@selected)
-    #Handles if no feeds were selected
-  rescue
-    @feeds_selected = Feed.all
+  def search_open
+    begin  
+      # Finds the feeds that were selcted by checkboxes
+      @selected = params[:selected]
+      @feeds_selected = [Feed.find(@selected)]
+      
+      
+    # Handles if no feeds were selected
+    rescue
+      @feeds_selected = Feed.all
+    end
   end
 
-  open('/Users/ecombs/Documents/outputFile3.txt', 'a') { |f|
-  #f.puts "Title" }
-  @feeds_selected.each do |feed|
-    #Finds all articles that have relevant results
-    @article_results = feed.articles.search_for(params[:search]).each {|article|}
-    open('/Users/ecombs/Documents/outputFile3.txt', 'a') { |f|
-      #Puts the results into a file
-      @article_results.each do |articlebaby|
-        f.puts (articlebaby.title)
+  def search
+
+    begin  
+      # Finds the feeds that were selcted by checkboxes
+      @selected = params[:selected]
+      @feeds_selected = [Feed.find(@selected)]
+      
+      
+    # Handles if no feeds were selected
+    rescue
+      @feeds_selected = Feed.all
+    end
+    
+    total_list = "Title, Author, Published, Word Count, Readability, Feed ID\n"
+
+    @article_list = Array.new
+
+    @feeds_selected.each do |feed|
+      # Finds all articles that have relevant results
+      @article_results = feed.articles.search_for(params[:search]).each {|article|}
+      @article_results.each do |article_tiny|
+        @article_list.push(article_tiny)
+        #article_tiny.update_attributes(content: article_tiny.content.gsub!(/,/,''))
+        row_string = [ article_tiny.title,
+                      article_tiny.author,
+                      article_tiny.published,
+                      article_tiny.wordcount,
+                      article_tiny.readability].map(&:to_s).join(',')
+        #row_string = article_tiny.title + "," + article_tiny.author + "," + article_tiny.published?.to_s + "," + article_tiny.wordcount?.to_s + "," + article_tiny.readability?.to_s + "," + article_tiny.feed_id?.to_s
+        total_list += row_string + "\n"
       end
-    }
+      
+    end
+    send_data total_list, filename: "file.csv"
+    #respond_to do |format|
+    #  format.html
+    #  format.csv { send_data total_list, filename: "file.csv"}
+    #end
   end
-
-  @feeds_selected = Feed.all
-end
 
   # POST /feeds
   # POST /feeds.json
@@ -59,7 +88,7 @@ end
       results = Feed.all.search_url(feed_params[:url])
       if results.present?
         #format.html { render :new, notice: 'That url has already been used for a previous feed' }
-        format.html { redirect_to @feed, notice: 'The url already been used for a previous feed, not saved' }
+        format.html { redirect_to @feed, notice: 'The URL entered has already been used for a previous feed. Please use a unique URL.' }
         format.json { render json: @feed.errors, status: :unprocessable_entity }
       else
         #Checks to see if given url is a valid rss feed
@@ -69,12 +98,12 @@ end
             format.html { redirect_to @feed, notice: 'Feed was successfully created.' }
             format.json { render :show, status: :created, location: @feed }
           else
-            format.html { render :new, notice: 'That url has already been used for a previous feed' }
+            format.html { render :new, notice: 'The URL entered has already been used for a previous feed. Please use a unique URL.' }
             format.json { render json: @feed.errors, status: :unprocessable_entity }
           end
         else
           #Gives an error if rss feed is not valid
-          format.html { redirect_to @feed, notice: 'The given url is not a valid rss feed' }
+          format.html { redirect_to @feed, notice: 'The entered URL is not a valid RSS feed' }
           format.json { render json: @feed.errors, status: :unprocessable_entity }
         end
       end

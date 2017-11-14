@@ -10,7 +10,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-    <link rel="stylesheet" href="../assets/main.css" />
+    <link rel="stylesheet" href="assets/main.css" />
     <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
   </head>
   <body>
@@ -18,7 +18,7 @@
     <!-- Header -->
     
     <div id="header">
-      <img src="../assets/scoop.png" height="125" width="125"> 
+      <img src="images/scoop.png" height="125" width="125"> 
       <h1>Scoop.</h1>
       <p>A custom RSS reader.</p>
     </div>
@@ -33,31 +33,25 @@
         <p id="notice"><%= notice %></p>
         <div class="box container">
           <header>
-            <h2>RSS Feeds</h2>
+            <h2>Results</h2>
           </header>
           <div class="table-wrapper">
             <table class="default">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Actions</th>
+                  <th>Title</th>
+                  <th>Author</th>
+                  <th>Feed</th>
+                  <th>Wordcount</th>
+                  <th>Readability</th>
                   <th colspan="3"></th>
                 </tr>
               </thead>
               <tbody>
-                <% @feeds.each do |feed| %>
-                <tr>
-                  <td><%= feed.name %></td>
-                  <td><%= link_to 'Show', feed %></td>
-                  <td><%= link_to 'Edit', edit_feed_path(feed) %></td>
-                  <td><%= link_to 'Destroy', feed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-                </tr>
-                <% end %>
               </tbody>
             </table>
           </div>
           <br>
-          <%= link_to 'New Feed', new_feed_path %>
         </div>
       </section>
 
@@ -157,10 +151,10 @@
     </div>
 
     <!-- Scripts -->
-    <script src="../assets/jquery.min.js"></script>
-    <script src="../assets/skel.min.js"></script>
-    <script src="../assets/util.js"></script>
+    <script src="assets/jquery.min.js"></script>
+    <script src="assets/skel.min.js"></script>
+    <script src="assets/util.js"></script>
     <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-    <script src="../assets/main.js"></script>
+    <script src="assets/main.js"></script>
   </body>
 </html>
