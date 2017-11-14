@@ -31,21 +31,23 @@
 						<h3>Search the Feeds</h3>
 					</header>
 					<div>
-  						Search:<br>
             			<!-- Creates search box user can type queries into-->
                         <%= form_tag(search_path, :method => "get", id: "search-form") do %>
-                            <%= text_field_tag :search, params[:search], placeholder: "Search" %> <br />
-                            <%= submit_tag "Search", :name => nil %>
+                        <%= text_field_tag :search, params[:search], placeholder: "Enter keywords" %> <br />
+                       
                 			<tbody>
                 				<!--Creates checkboxes for each feed-->
                 				<% @feeds_selected.each do |feed| %>
                     				<tr>
                       					<!-- Puts all feeds that were marked true into an array referenced through selected[]-->
-                      					<%= check_box_tag :"selected[]", feed.id, false %><br>
+                      					<%= check_box_tag :"selected[]", feed.id, true %>
                      					<td><%= feed.name %></td>
+                     					<br>
                     				</tr>
                     			<% end %>
                     		</tbody>
+                    		<br>
+                            <%= submit_tag "Search", :name => nil %>
                         <% end %>
 					</div>
 				</section>

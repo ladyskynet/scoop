@@ -26,32 +26,22 @@ class FeedsController < ApplicationController
   def welcome
   end
 
-  def search_open
-    begin  
-      # Finds the feeds that were selcted by checkboxes
-      @selected = params[:selected]
-      @feeds_selected = [Feed.find(@selected)]
-      
-      
-    # Handles if no feeds were selected
-    rescue
-      @feeds_selected = Feed.all
-    end
+  def form_search
+    @feeds_selected = Feed.all
   end
 
   def search
-
     begin  
       # Finds the feeds that were selcted by checkboxes
       @selected = params[:selected]
-      @feeds_selected = [Feed.find(@selected)]
-      
+      @feeds_selected = Feed.find(@selected)
       
     # Handles if no feeds were selected
     rescue
       @feeds_selected = Feed.all
     end
-    
+
+    @search = params[:search]
     total_list = "Title, Author, Published, Word Count, Readability, Feed ID\n"
 
     @article_list = Array.new
@@ -61,22 +51,16 @@ class FeedsController < ApplicationController
       @article_results = feed.articles.search_for(params[:search]).each {|article|}
       @article_results.each do |article_tiny|
         @article_list.push(article_tiny)
-        #article_tiny.update_attributes(content: article_tiny.content.gsub!(/,/,''))
-        row_string = [ article_tiny.title,
-                      article_tiny.author,
-                      article_tiny.published,
-                      article_tiny.wordcount,
-                      article_tiny.readability].map(&:to_s).join(',')
-        #row_string = article_tiny.title + "," + article_tiny.author + "," + article_tiny.published?.to_s + "," + article_tiny.wordcount?.to_s + "," + article_tiny.readability?.to_s + "," + article_tiny.feed_id?.to_s
+        row_string = article_tiny.title.gsub!(/,/,'') + "," + article_tiny.author.gsub!(/,/,'') + "," + article_tiny.published.to_s + "," + article_tiny.wordcount.to_s + "," + article_tiny.readability.to_s
         total_list += row_string + "\n"
       end
-      
     end
-    send_data total_list, filename: "file.csv"
-    #respond_to do |format|
-    #  format.html
-    #  format.csv { send_data total_list, filename: "file.csv"}
-    #end
+
+    # send_data total_list, filename: "file.csv"
+    respond_to do |format|
+      format.html
+      format.csv { send_data total_list, filename: "file.csv" }
+    end
   end
 
   # POST /feeds

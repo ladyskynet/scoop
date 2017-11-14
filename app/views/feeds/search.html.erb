@@ -31,6 +31,21 @@
 						<h3>Results</h3>
 					</header>
 					<div>
+						<% puts ("html stuff: "+@search) %>
+						<% puts @selected%> <!-- is an array here -->
+						<% puts search_path(format: :csv)%>
+						<%= form_tag(search_path+".csv", :method => "get", id: "search-form") do %>
+							<%= hidden_field_tag 'search', @search %>
+							<% @selected.each do |feed| %>
+                    				<tr>
+                      					<!-- Puts all feeds that were marked true into an array referenced through selected[]-->
+                      					<% check_box_tag :"selected[]", feed, true %>
+                    				</tr>
+                    		<% end %>
+
+                            <%= submit_tag "Save to CSV", :name => nil %>
+                        <% end %>
+						
             			<!-- Creates search box user can type queries into-->
             			<div class="table-wrapper">
             				<table class="default">
