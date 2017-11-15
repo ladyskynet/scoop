@@ -42,8 +42,9 @@
                       					<% check_box_tag :"selected[]", feed, true %>
                     				</tr>
                     		<% end %>
-
-                            <%= submit_tag "Save to CSV", :name => nil %>
+                    		<ul class="actions">
+                            	<li><%= submit_tag "Save to CSV", :name => nil %></li>
+                            </ul>
                         <% end %>
 						
             			<!-- Creates search box user can type queries into-->

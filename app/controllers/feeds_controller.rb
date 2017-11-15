@@ -1,7 +1,7 @@
 require 'csv'
 
 class FeedsController < ApplicationController
-  before_action :set_feed, only: [:show, :edit, :update, :destroy, :welcome, :search, :form_search]
+  before_action :set_feed, only: [:show, :edit, :update, :destroy]
 
   # GET /feeds
   # GET /feeds.json
@@ -53,7 +53,9 @@ class FeedsController < ApplicationController
       @article_results = feed.articles.search_for(params[:search]).each {|article|}
       @article_results.each do |article_tiny|
         @article_list.push(article_tiny)
-        row_string = article_tiny.title.gsub!(/,/,'') + "," + article_tiny.author.gsub!(/,/,'') + "," + article_tiny.published.to_s + "," + article_tiny.wordcount.to_s + "," + article_tiny.readability.to_s
+        puts article_tiny.title
+        puts article_tiny.author
+        row_string = article_tiny.title.tap { |s| s.delete!(',') } + "," + article_tiny.author.tap { |s| s.delete!(',') } #+ "," + article_tiny.published.to_s # + "," + article_tiny.wordcount.to_s + "," + article_tiny.readability.to_s
         total_list += row_string + "\n"
       end
     end
