@@ -26,7 +26,8 @@
     <%= form.text_area :description, id: :feed_description %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <ul class="actions">
+    <li><%= form.submit %></li>
+    <li><%= button_to 'Back', feeds_path, method: :get %></li>
+  </ul>
 <% end %>

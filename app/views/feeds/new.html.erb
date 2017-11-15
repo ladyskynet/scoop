@@ -19,7 +19,7 @@
 		<div id="header">
 			<!--<span class="logo icon fa-paper-plane-o"></span>-->
 			<img src="../images/scoop.png" height="125" width="125"> 
-			<h1>Hi. This is Scoop.</h1>
+			<h1>Scoop</h1>
 			<p>A custom RSS reader. </p>
 		</div>
 
@@ -32,8 +32,8 @@
 					</header>
 					<div>
 						<%= render 'form', feed: @feed %>
-						<%= link_to 'Show', @feed %>
-						<%= link_to 'Back', feeds_path %>
+						<%= button_to 'Show', @feed, method: :get%>
+						<%= button_to 'Back', feeds_path, method: :get%>
 					</div>
 				</section>
 			</div>

@@ -20,7 +20,7 @@
     
   		<div id="header">
       		<img src="../../images/scoop.png" height="125" width="125"> 
-      		<h1>Scoop.</h1>
+      		<h1>Scoop</h1>
       		<p>A custom RSS reader.</p>
   		</div>
   		
@@ -39,6 +39,8 @@
       				<% @articles.each do |article| %>
       					<%= link_to article.title, article %> - <i> published <%= time_ago_in_words(article.published) %> ago.</i> <br>
       				<% end %>
+              <%= button_to 'Search', form_search_path, method: :get %>
+              <%= button_to 'Back', feeds_path, method: :get %>
     			</div>
   			</section>
 		</div>

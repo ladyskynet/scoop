@@ -10,7 +10,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="../assets/css/main.css" />
+		<link rel="stylesheet" href="../../assets/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
 	<body>
@@ -18,8 +18,8 @@
 		<!-- Header -->
 		<div id="header">
 			<!--<span class="logo icon fa-paper-plane-o"></span>-->
-			<img src="../images/scoop.png" height="125" width="125"> 
-			<h1>Hi. This is Scoop.</h1>
+			<img src="../../images/scoop.png" height="125" width="125"> 
+			<h1>Scoop</h1>
 			<p>A custom RSS reader. </p>
 		</div>
 
@@ -32,8 +32,6 @@
 					</header>
 					<div>
 						<%= render 'form', feed: @feed %>
-						<%= link_to 'Show', @feed %>
-						<%= link_to 'Back', feeds_path %>
 					</div>
 				</section>
 			</div>
@@ -87,11 +85,11 @@
 			</div>
 
 		<!-- Scripts -->
-			<script src="../assets/js/jquery.min.js"></script>
-			<script src="../assets/js/skel.min.js"></script>
-			<script src="../assets/js/util.js"></script>
+			<script src="../../assets/jquery.min.js"></script>
+			<script src="../../assets/skel.min.js"></script>
+			<script src="../../assets/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="../assets/js/main.js"></script>
+			<script src="../../assets/main.js"></script>
 		
 	</body>
 </html>

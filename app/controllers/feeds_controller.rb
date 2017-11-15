@@ -1,7 +1,7 @@
 require 'csv'
 
 class FeedsController < ApplicationController
-  before_action :set_feed, only: [:show, :edit, :update, :destroy]
+  before_action :set_feed, only: [:show, :edit, :update, :destroy, :welcome, :search, :form_search]
 
   # GET /feeds
   # GET /feeds.json
@@ -21,6 +21,8 @@ class FeedsController < ApplicationController
 
   # GET /feeds/1/edit
   def edit
+    feed = Feed.find(params[:id])
+    @feed = feed
   end
 
   def welcome
@@ -114,7 +116,8 @@ class FeedsController < ApplicationController
   def update
     respond_to do |format|
       if @feed.update(feed_params)
-        format.html { redirect_to @feed, notice: 'Feed was successfully updated.' }
+        flash[:success] = "Feed was succesfully updated."
+        format.html { redirect_to @feed }
         format.json { render :show, status: :ok, location: @feed }
       else
         format.html { render :edit }
@@ -128,7 +131,8 @@ class FeedsController < ApplicationController
   def destroy
     @feed.destroy
     respond_to do |format|
-      format.html { redirect_to feeds_url, notice: 'Feed was successfully destroyed.' }
+      flash[:success] = "Feed was successfully destroyed."
+      format.html { redirect_to feeds_url }
       format.json { head :no_content }
     end
   end

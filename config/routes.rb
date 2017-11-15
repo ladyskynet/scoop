@@ -9,7 +9,10 @@ Rails.application.routes.draw do
 	get 'welcome' => 'feeds#welcome'
 	get 'form_search' => 'feeds#form_search'
 	get 'search' => 'feeds#search'
+	#GET    /movies/:id(.:format)      movies#show
+	get 'feeds/:id/edit(:format)' => 'feeds#edit', as: 'edit_feed_path'
 	#get 'download' => 'feeds#download'
-	root 'feeds#index'
+	root 'feeds#welcome'
+
 	# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -10,7 +10,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="../assets/css/main.css" />
+		<link rel="stylesheet" href="../assets/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
 	<body>
@@ -19,8 +19,8 @@
 		<div id="header">
 			<!--<span class="logo icon fa-paper-plane-o"></span>-->
 			<img src="../images/scoop.png" height="125" width="125"> 
-			<h1>Hi. This is Scoop.</h1>
-			<p>A custom RSS reader. </p>
+			<h1>Scoop</h1>
+			<p>A custom RSS reader.</p>
 		</div>
 
 		<!-- MAIN --> 
@@ -57,11 +57,15 @@
 								<textarea name="description" id="description" rows="6"><%=@feed.description%></textarea>
 							</div>
 						</div>
+						<%= hidden_field_tag 'search', @search %>
 						<div class="row">
 							<div class="12u">
 								<ul class="actions">
-									<li><%= button_to 'Edit', edit_feed_path(@feed) method: :get%></li>
-									<li><%= button_to 'Back', feeds_path method: :get%></li>
+									<% puts feed_path %>
+									<% puts feeds_path %>
+									<% puts edit_feed_path %>
+									<li><h3><%= link_to 'Edit', edit_feed_path(@feed) %></h3></li>
+									<li><h3><%= link_to 'Back', feeds_path %></h3></li>
 								</ul>
 							</div>
 						</div>
@@ -118,11 +122,11 @@
 			</div>
 
 		<!-- Scripts -->
-			<script src="../assets/js/jquery.min.js"></script>
-			<script src="../assets/js/skel.min.js"></script>
-			<script src="../assets/js/util.js"></script>
+			<script src="../assets/jquery.min.js"></script>
+			<script src="../assets/skel.min.js"></script>
+			<script src="../assets/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="../assets/js/main.js"></script>
+			<script src="../assets/main.js"></script>
 		
 	</body>
 </html>

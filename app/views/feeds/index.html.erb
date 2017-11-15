@@ -19,7 +19,7 @@
     
     <div id="header">
       <img src="../assets/scoop.png" height="125" width="125"> 
-      <h1>Scoop.</h1>
+      <h1>Scoop</h1>
       <p>A custom RSS reader.</p>
     </div>
 
@@ -53,17 +53,18 @@
               <tbody>
                 <% @feeds.each do |feed| %>
                 <tr>
-                  <td><%= feed.name %></td>
-                  <td><%= link_to 'Show', feed %></td>
-                  <td><%= link_to 'Edit', edit_feed_path(feed) %></td>
-                  <td><%= link_to 'Destroy', feed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  <td><h3><%= link_to feed.name, feed %></h3></td>
+                  <td><%= button_to 'Edit', edit_feed_path(feed), method: :get%></td>
                 </tr>
                 <% end %>
               </tbody>
             </table>
           </div>
           <br>
-          <%= button_to 'New Feed', new_feed_path, method: :get%>
+          <ul class="actions">
+            <li><%= button_to 'Back', welcome_path, method: :get %></li>
+            <li><%= button_to 'New Feed', new_feed_path, method: :get %></li>
+          </ul>
         </div>
       </section>
 
