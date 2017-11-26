@@ -1,14 +1,40 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Scoop</title>
-    <%= csrf_meta_tags %>
+  	<head>
+    	<title>Scoop</title>
+    	<%= csrf_meta_tags %>
+    	<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../assets/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+    	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    	<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    	<!-- Scripts -->
+		<script src="../assets/jquery.min.js"></script>
+		<script src="../assets/skel.min.js"></script>
+		<script src="../assets/util.js"></script>
+		<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+		<script src="../assets/main.js"></script>
 
-  <body>
-    <%= yield %>
-  </body>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <!--<link rel="stylesheet" href="/resources/demos/style.css">-->
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <style type="text/css">
+
+			body {
+ 				margin-top: 0px;
+ 				margin-right: 0px;
+ 				margin-bottom: 0px;
+ 				margin-left: 0px
+			}
+
+		</style>
+  	</head>
+  	
+  	<body>
+    	<%= yield %>
+  	</body>
 </html>

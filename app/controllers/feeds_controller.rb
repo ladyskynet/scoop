@@ -44,8 +44,8 @@ class FeedsController < ApplicationController
     end
 
     @search = params[:search]
-    total_list = "Title, Author, Published, Word Count, Readability, Feed ID\n"
-
+    #total_list = "Title, Author, Published, Word Count, Readability, Feed ID\n"
+    total_list = "Title, Author\n"
     @article_list = Array.new
 
     @feeds_selected.each do |feed|

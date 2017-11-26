@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 	get 'search' => 'feeds#search'
 	#GET    /movies/:id(.:format)      movies#show
 	get 'feeds/:id/edit(:format)' => 'feeds#edit', as: 'edit_feed_path'
+	get 'info' => 'feeds#info'
 	#get 'download' => 'feeds#download'
 	root 'feeds#welcome'
 
