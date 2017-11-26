@@ -1,3 +1,15 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Scoop</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="../../assets/main.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+  </head>
+  <body>
+
 <!-- Header -->
 <div id="header">
 	<!--<span class="logo icon fa-paper-plane-o"></span>-->
@@ -22,10 +34,10 @@
                 		<div class="9u 12u(mobilep)">
                 			<label for="tftsearch">Query</h4>
                 			<%= text_field_tag :search, params[:search], placeholder: "Enter keywords", id: "tftsearch"%>
-                		</div>
-                			<ul class="icons">
-                				<li><a href=<%=info_path%> class="icon fa-question"><span class="label">Twitter</span></a></li>
-                			</ul>
+                		</div><br>
+            			<ul class="icons">
+            				<li><a href=<%=info_path%> class="icon fa-question"><span class="label">Info</span></a></li>
+            			</ul>
                 	</div>
                		
                 	<div class="row" id="ulwithdates">
@@ -47,21 +59,23 @@
                 	<label for="tableoffeeds">RSS Feeds</label>
                 	<div class="row">
                 		<div class="table-wrapper">
-        				<tbody>
-        					<!--Creates checkboxes for each feed-->
-        					<% @feeds_selected.each do |feed| %>
-            					<tr>
-              						<!-- Puts all feeds that were marked true into an array referenced through selected[]-->
-              						<%= check_box_tag :"selected[]", feed.id, true %>
-             						<td><%= feed.name %></td>
-             						<br>
-            					</tr>
-            				<% end %>
-            			</tbody>
-            		</div>
+        					<tbody>
+        						<!--Creates checkboxes for each feed-->
+        						<% @feeds_selected.each do |feed| %>
+            						<tr>
+              							<!-- Puts all feeds that were marked true into an array referenced through selected[]-->
+              							<%= check_box_tag :"selected[]", feed.id, true %>
+             							<td><%= feed.name %></td>
+             							<br>
+            						</tr>
+            					<% end %>
+            				</tbody>
+            			</div>
             		</div>
             		<br>
-                    <%= submit_tag "Search", :name => nil %>
+            		<ul class="actions">
+                    	<li><%= submit_tag "Search", :name => nil %></li>
+                    </ul>
                 <% end %>
 			</div>
 		</section>
@@ -109,3 +123,11 @@
 		</ul>
 	</div>
 </div>
+<!-- Scripts -->
+		<script src="../../assets/jquery.min.js"></script>
+		<script src="../../assets/skel.min.js"></script>
+		<script src="../../assets/util.js"></script>
+		<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+		<script src="../../assets/main.js"></script>
+	</body>
+</html>
