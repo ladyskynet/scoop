@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023183737) do
+ActiveRecord::Schema.define(version: 20171127174544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,12 +28,25 @@ ActiveRecord::Schema.define(version: 20171023183737) do
     t.float "bias"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "string_length"
+    t.integer "letter_count"
+    t.integer "syllable_count"
+    t.integer "sentence_count"
+    t.float "average_words_per_sentence"
+    t.float "average_syllables_per_word"
   end
 
   create_table "feeds", force: :cascade do |t|
     t.string "name"
     t.string "url"
     t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["url"], name: "feeds_url_key", unique: true
+  end
+
+  create_table "photos", force: :cascade do |t|
+    t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

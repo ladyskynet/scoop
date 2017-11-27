@@ -43,15 +43,9 @@ namespace :sync do
 
           article_content = mechanize.page.parser.css("p").text
 
-          #page.css("p").each do |paragraph|
-            # p ("Paragraph: "+paragraph)
-          #  article_content += " " + paragraph
-          #end
-          #puts ("Article Content: " + article_content)
-
           total_readability = Odyssey.flesch_kincaid_re(article_content, true)
-          puts total_readability
-          local_entry.update_attributes(wordcount: total_readability['word_count'], readability: total_readability['score'], content: article_content)  
+ 
+          local_entry.update_attributes(wordcount: total_readability['word_count'], readability: total_readability['score'], content: article_content, string_length: total_readability['string_length'], letter_count: total_readability['letter_count'], syllable_count: total_readability['syllable_count'], sentence_count: total_readability['sentence_count'], average_words_per_sentence: total_readability['average_words_per_sentence'], average_syllables_per_word: total_readability['average_syllables_per_word'])  
           begin
             local_entry.save!
           rescue Exception => e
@@ -59,7 +53,6 @@ namespace :sync do
           end
         end
         p "Synced Entry - #{entry.title}"
-        # p local_entry.wordcount
       end
       p "Synced Feed - #{feed.name}"
     end
