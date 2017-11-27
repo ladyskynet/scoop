@@ -7,7 +7,13 @@ require 'mechanize'
 
 #AutoTagging.services = [:yahoo]
 
-a = Mechanize.new
+mechanize = Mechanize.new { |a|
+  a.post_connect_hooks << lambda { |_,_,response,_|
+    if response.content_type.nil? || response.content_type.empty?
+      response.content_type = 'text/html'
+    end
+  }
+}
 
 namespace :sync do
   # For all feeds gather new articles
@@ -24,27 +30,27 @@ namespace :sync do
         if local_entry.nil?
           p "Creating a new Article!"
           local_entry = Article.new(author: entry.author, url: entry.url, published: entry.published, title: entry.title, feed_id: feed.id)
+          
           begin
-            page = a.get(entry.url)
+            mechanize.get(entry.url)
             #puts page.content
           rescue Exception => e
             p e.message
           end
 
-          if page.nil?
-            begin
-              page = Nokogiri::HTML(open(entry.url))
-              p "noko"
-            rescue Exception => e
-              p e.message
-            end
-          end
-          page.css("p").each do |paragraph|
+          mechanize.page.parser.class
+          # => Nokogiri::HTML::Document
+
+          article_content = mechanize.page.parser.css("p").text
+
+          #page.css("p").each do |paragraph|
             # p ("Paragraph: "+paragraph)
-            article_content += " " + paragraph
-          end
+          #  article_content += " " + paragraph
+          #end
           #puts ("Article Content: " + article_content)
+
           total_readability = Odyssey.flesch_kincaid_re(article_content, true)
+          puts total_readability
           local_entry.update_attributes(wordcount: total_readability['word_count'], readability: total_readability['score'], content: article_content)  
           begin
             local_entry.save!
