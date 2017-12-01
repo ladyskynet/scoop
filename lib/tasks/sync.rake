@@ -4,6 +4,7 @@ require 'nokogiri'
 require 'odyssey'
 require 'words_counted'
 require 'mechanize'
+require 'sentimental'
 
 #AutoTagging.services = [:yahoo]
 
@@ -14,6 +15,11 @@ mechanize = Mechanize.new { |a|
     end
   }
 }
+
+# Create an instance for usage
+analyzer = Sentimental.new
+# Load the default sentiment dictionaries
+analyzer.load_defaults
 
 namespace :sync do
   # For all feeds gather new articles
@@ -42,10 +48,12 @@ namespace :sync do
           # => Nokogiri::HTML::Document
 
           article_content = mechanize.page.parser.css("p").text
-
-          total_readability = Odyssey.flesch_kincaid_re(article_content, true)
- 
-          local_entry.update_attributes(wordcount: total_readability['word_count'], readability: total_readability['score'], content: article_content, string_length: total_readability['string_length'], letter_count: total_readability['letter_count'], syllable_count: total_readability['syllable_count'], sentence_count: total_readability['sentence_count'], average_words_per_sentence: total_readability['average_words_per_sentence'], average_syllables_per_word: total_readability['average_syllables_per_word'])  
+          if article_content != "" 
+            sentimentality_score = analyzer.score article_content
+            p sentimentality_score
+            total_readability = Odyssey.flesch_kincaid_re(article_content, true)
+            local_entry.update_attributes(wordcount: total_readability['word_count'], readability: total_readability['score'], content: article_content, string_length: total_readability['string_length'], letter_count: total_readability['letter_count'], syllable_count: total_readability['syllable_count'], sentence_count: total_readability['sentence_count'], average_words_per_sentence: total_readability['average_words_per_sentence'], average_syllables_per_word: total_readability['average_syllables_per_word'], sentimentality: sentimentality_score)  
+          end
           begin
             local_entry.save!
           rescue Exception => e

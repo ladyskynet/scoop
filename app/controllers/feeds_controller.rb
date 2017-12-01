@@ -1,4 +1,6 @@
 require 'csv'
+require 'date'
+#require date necessary at top of file
 
 class FeedsController < ApplicationController
   before_action :set_feed, only: [:show, :edit, :update, :destroy]
@@ -46,24 +48,34 @@ class FeedsController < ApplicationController
     @search = params[:search]
     #total_list = "Title, Author, Published, Word Count, Readability, Feed ID\n"
     total_list = "Title, Author\n"
-    @article_list = Array.new
-
-    @feeds_selected.each do |feed|
-      # Finds all articles that have relevant results
-      @article_results = feed.articles.search_for(params[:search]).each {|article|}
-      @article_results.each do |article_tiny|
-        @article_list.push(article_tiny)
-        puts article_tiny.title
-        puts article_tiny.author
-        row_string = article_tiny.title.tap { |s| s.delete!(',') } + "," + article_tiny.author.tap { |s| s.delete!(',') } #+ "," + article_tiny.published.to_s # + "," + article_tiny.wordcount.to_s + "," + article_tiny.readability.to_s
-        total_list += row_string + "\n"
+    @from = params[:from]
+    @to = params[:to]
+    begin
+      start = DateTime.strptime(@from, "%m/%d/%Y")
+      last = DateTime.strptime(@to, "%m/%d/%Y")
+      last = last.change({ hour: 23, min: 59, sec: 59 })
+      @article_list = Array.new
+      @feeds_selected.each do |feed|
+        # Finds all articles that have relevant results
+        @article_results = feed.articles.search_for(params[:search]).each {|article|}
+        @article_results.each do |article_tiny|
+          if(article_tiny.published >= start && article_tiny.published <= last)
+            puts(article_tiny.published)
+            @article_list.push(article_tiny)
+          end
+          puts article_tiny.title
+          puts article_tiny.author
+          row_string = article_tiny.title.tap { |s| s.delete!(',') } + "," + article_tiny.author.tap { |s| s.delete!(',') } #+ "," + article_tiny.published.to_s # + "," + article_tiny.wordcount.to_s + "," + article_tiny.readability.to_s
+          total_list += row_string + "\n"
+        end
       end
-    end
-
-    # send_data total_list, filename: "file.csv"
-    respond_to do |format|
-      format.html
-      format.csv { send_data total_list, filename: "file.csv" }
+      # send_data total_list, filename: "file.csv"
+      respond_to do |format|
+        format.html
+        format.csv { send_data total_list, filename: "file.csv" }
+      end
+    rescue
+      redirect_to "/form_search"
     end
   end
 
