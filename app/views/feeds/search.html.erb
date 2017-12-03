@@ -8,7 +8,7 @@
 		<ul>
 			<li><a href="/feeds#feedsIndexAnchor">Feeds</a></li>
 			<li><a href="/form_search#formSearchAnchor">Search</a></li>
-			<li><a href="/feeds/2/articles">Explore</a></li>
+			<li><a href="/feeds/2/articles#articlesIndexAnchor">Explore</a></li>
 			<li><a href="/">Home</a></li>
 		</ul>
 	</nav>
@@ -29,7 +29,7 @@
         					</tr>
         				<% end %>
 
-        				<% unless @article_list.nil?%>
+        				<% unless @article_list.empty?%>
 		    				<header>
 								<h3>Results</h3>
 							</header>

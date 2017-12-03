@@ -1790,6 +1790,17 @@
 	}
 
 /* Basic */
+	#main {
+  		animation: fadein 2s;
+	}
+
+	#header {
+  		animation: fadein 2s;
+	}
+	@keyframes fadein {
+  		from { opacity: 0}
+  		to   { opacity: 1}
+	}
 
 	html, body {
 		height: 100%;

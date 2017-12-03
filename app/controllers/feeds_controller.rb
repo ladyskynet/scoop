@@ -50,9 +50,7 @@ class FeedsController < ApplicationController
     @from = params[:from]
     @to = params[:to]
     begin
-      puts 'begin'
-      unless @from.nil? or @to.nil?
-        puts "something was nil"
+      unless (@from.nil? or @to.nil?)
         start = DateTime.strptime(@from, "%m/%d/%Y")
         last = DateTime.strptime(@to, "%m/%d/%Y")
         last = last.change({ hour: 23, min: 59, sec: 59 })
@@ -63,14 +61,16 @@ class FeedsController < ApplicationController
       if @to.nil?
         last = DateTime.now
       end  
-      puts start
-      puts last
+
       @article_list = Array.new
       @feeds_selected.each do |feed|
+ 
         # Finds all articles that have relevant results
         @article_results = feed.articles.search_for(params[:search]).each {|article|}
+
         @article_results.each do |article_tiny|
-          unless article_tiny.published.nil?  
+          unless article_tiny.published.nil?
+            puts article_tiny  
             if(article_tiny.published >= start && article_tiny.published <= last)
               puts(article_tiny.published)
               @article_list.push(article_tiny)
@@ -82,7 +82,7 @@ class FeedsController < ApplicationController
           end
         end
       end
-      # send_data total_list, filename: "file.csv"
+
       respond_to do |format|
         format.html
         format.csv { send_data total_list, filename: "file.csv" }
