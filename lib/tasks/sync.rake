@@ -61,10 +61,12 @@ namespace :sync do
 
           mechanize.get(entry.url)
           mechanize.page.images.each do |imageUrl|
-            newImage = newArticle.photos.create(url: imageUrl)
-            unless newImage.save
-              p newImage.errors.full_messages
-              next
+            unless imageUrl.include? "thumb"
+              newImage = newArticle.photos.create(url: imageUrl)
+              unless newImage.save
+                p newImage.errors.full_messages
+                next
+              end
             end
             
             # Instantiates a client
