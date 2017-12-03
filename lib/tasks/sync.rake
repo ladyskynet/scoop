@@ -68,13 +68,18 @@ namespace :sync do
             end
             
             # Instantiates a client
-            vision = Google::Cloud::Vision.new project: projectId, keyfile: keyFile
-
-            # Performs label detection on the image file
-            vision.image(imageUrl).labels.each do |label|
-              newTag = newImage.tags.create(name: label.description)
-              p newTag.errors.full_messages unless newTag.save
+            begin
+              vision = Google::Cloud::Vision.new project: projectId, keyfile: keyFile
+              # Performs label detection on the image file
+              vision.image(imageUrl).labels.each do |label|
+                newTag = newImage.tags.create(name: label.description)
+                p newTag.errors.full_messages unless newTag.save
+              end
+            rescue => e
+              puts e.message
+              return
             end
+            
           end
 
           articleContent = mechanize.page.parser.css("p").text
