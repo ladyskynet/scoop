@@ -71,7 +71,6 @@ test:
 # On Heroku and other platform providers, you may have a full connection URL
 # available as an environment variable. For example:
 #
-#   DATABASE_URL="postgres://myuser:mypass@localhost/somedatabase"
 #
 # You can use this database configuration with:
 #
@@ -80,6 +79,7 @@ test:
 #
 production:
   <<: *default
+  url: "postgres://ggumtcqlzcardi:17a65f5be340a8441a893acc40cb3a7dcd92a4da59dc62a960bba47d5f7f6853@ec2-54-221-196-253.compute-1.amazonaws.com:5432/d8jdq4lovs9vr1"
   database: scoop_production
   username: scoop
   password: <%= ENV['SCOOP_DATABASE_PASSWORD'] %>

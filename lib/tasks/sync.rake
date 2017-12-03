@@ -72,8 +72,9 @@ namespace :sync do
               vision = Google::Cloud::Vision.new project: projectId, keyfile: keyFile
               # Performs label detection on the image file
               vision.image(imageUrl).labels.each do |label|
-                newTag = newImage.tags.create(name: label.description)
+                newTag = Tag.find_or_create_by(name: label.description)
                 p newTag.errors.full_messages unless newTag.save
+                newImage.tags << newTag 
               end
             rescue => e
               puts e.message

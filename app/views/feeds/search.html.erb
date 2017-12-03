@@ -19,49 +19,54 @@
 	<div class="box container">
 		<section>
 			<div>
-				<%= form_tag(search_path+".csv", :method => "get", id: "search-form") do %>
+				<%= form_tag("/search.csv", :method => "get", id: "search-form") do %>
 					<%= hidden_field_tag 'search', @search %>
-					<% @selected.each do |feed| %>
-        				<tr>
-          					<!-- Puts all feeds that were marked true into an array referenced through selected[]-->
-          					<% check_box_tag :"selected[]", feed, true %>
-        				</tr>
+					<% unless @selected.nil? %>
+						<% @selected.each do |feed| %>
+        					<tr>
+          						<!-- Puts all feeds that were marked true into an array referenced through selected[]-->
+          						<% check_box_tag :"selected[]", feed, true %>
+        					</tr>
+        				<% end %>
+
+        				<% unless @article_list.nil?%>
+		    				<header>
+								<h3>Results</h3>
+							</header>
+		    				<ul class="actions">
+	                    		<li><%= submit_tag "Save to CSV", :name => nil %></li>
+	                    	</ul>
+			    			<div class="table-wrapper">
+			    				<table class="default">
+			      					<thead>
+			        					<tr>
+			          						<th>Title</th>
+			          						<th>Author</th>
+			          						<th>Feed ID</th>
+			          						<th>Word Count</th>
+			          						<th colspan="3"></th>
+			          					</tr>
+			          				</thead>
+			          				<tbody>
+		          						<% @article_list.each do |article| %>
+		          							<tr>
+								      			<td><%= link_to article.title, article %></td>
+								      			<td><%= article.author%></td>
+								      			<td><%= article.feed_id %></td>
+								      			<td><%= article.wordcount %></td>
+								    		</tr>
+				                		<% end %>
+				            		</tbody>
+				        		</table>
+				    		</div>
+				    	<% else %>
+				    		<h3>Oh no! No results found. Try <a href="/form_search#formSearchAnchor">again</a>?</h3>
+				    	<% end %>
+
+        			<% else %>
+        				<h3> No feeds in the system to search. <a href="/feeds#feedsIndexAnchor">Add</a> one? </h3>
             		<% end %>
-                
-	    			<!-- Creates search box user can type queries into-->
-	    			<%if !@article_list.nil?%>
-	    				<header>
-							<h3>Results</h3>
-						</header>
-	    				<ul class="actions">
-                    		<li><%= submit_tag "Save to CSV", :name => nil %></li>
-                    	</ul>
-		    			<div class="table-wrapper">
-		    				<table class="default">
-		      					<thead>
-		        					<tr>
-		          						<th>Title</th>
-		          						<th>Author</th>
-		          						<th>Feed ID</th>
-		          						<th>Word Count</th>
-		          						<th colspan="3"></th>
-		          					</tr>
-		          				</thead>
-		          				<tbody>
-	          						<% @article_list.each do |article| %>
-	          						<tr>
-							      		<td><%= link_to article.title, article %></td>
-							      		<td><%= article.author%></td>
-							      		<td><%= article.feed_id %></td>
-							      		<td><%= article.wordcount %></td>
-							    	</tr>
-				                	<% end %>
-				            	</tbody>
-				        	</table>
-				    	</div>
-				    <%else%>
-				    	<h3>Oh no! No results found. Try <a href="/form_search#formSearchAnchor">again</a>?</h3>
-				    <% end %>
+	    			
 			    <% end %>
 			</div>
 		</section>

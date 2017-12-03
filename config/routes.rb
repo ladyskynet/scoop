@@ -6,7 +6,8 @@ Rails.application.routes.draw do
 	end 	
 	get 'welcome' => 'feeds#welcome'
 	get 'form_search' => 'feeds#form_search'
-	get 'search' => 'feeds#search'
+	get 'search(:format)' => 'feeds#search'
+	#get 'search' => 'feeds#search'
 	get 'feeds/:id/edit(:format)' => 'feeds#edit', as: 'edit_feed_path'
 	get 'info' => 'feeds#info'
 	root 'feeds#welcome'

@@ -27,29 +27,38 @@
         <% end %>
         <h2>RSS Feeds</h2>
       </header>
-      <div class="table-wrapper">
-        <table class="default">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Actions</th>
-              <th colspan="3"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @feeds.each do |feed| %>
-            <tr>
-              <td><h3><%= link_to feed.name, feed %></h3></td>
-              <td><%= button_to 'Edit', edit_feed_path(feed), method: :get%></td>
-            </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
+      <% unless @feeds.empty? %>
+        <div class="table-wrapper">
+          <table class="default">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Edit</th>
+                <th colspan="3"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @feeds.each do |feed| %>
+                <tr>
+                  <td><h3><%= link_to feed.name, feed %></h3></td>
+                  <td>
+                    <ul class="icons">
+                      <li><a href=<%=edit_feed_path(feed)%> class="icon fa-pencil"><span class="label">Edit</span></a></li>
+                    </ul>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <h4>Add some feeds to see them here!</h4>
+      <% end %>
       <br>
       <ul class="actions">
-        <li><%= button_to 'Back', welcome_path, method: :get %></li>
-        <li><%= button_to 'New Feed', new_feed_path, method: :get %></li>
+
+        <%url1 = new_feed_path + "#feedsNewAnchor"%>
+        <li><%= button_to 'New Feed', url1, method: :get %></li>
       </ul>
     </div>
   </section>

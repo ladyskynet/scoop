@@ -26,14 +26,14 @@ ActiveRecord::Schema.define(version: 20171203003448) do
     t.integer "wordcount"
     t.float "sentimentality"
     t.float "bias"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "string_length"
     t.integer "letter_count"
     t.integer "syllable_count"
     t.integer "sentence_count"
     t.float "average_words_per_sentence"
     t.float "average_syllables_per_word"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "feeds", force: :cascade do |t|
@@ -42,33 +42,25 @@ ActiveRecord::Schema.define(version: 20171203003448) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["url"], name: "feeds_url_key", unique: true
   end
 
   create_table "photos", force: :cascade do |t|
     t.string "url"
+    t.integer "article_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "article_id"
   end
 
-  create_table "taggings", force: :cascade do |t|
-    t.bigint "article_id"
+  create_table "photos_tags", id: false, force: :cascade do |t|
+    t.bigint "photo_id"
     t.bigint "tag_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["article_id"], name: "index_taggings_on_article_id"
-    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+    t.index ["photo_id"], name: "index_photos_tags_on_photo_id"
+    t.index ["tag_id"], name: "index_photos_tags_on_tag_id"
   end
 
   create_table "tags", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "photo_id"
     t.index ["name"], name: "index_tags_on_name"
   end
 
-  add_foreign_key "taggings", "articles"
-  add_foreign_key "taggings", "tags"
 end

@@ -3,7 +3,6 @@ require 'date'
 #require date necessary at top of file
 
 class FeedsController < ApplicationController
-  before_action :set_feed, only: [:show, :edit, :update, :destroy]
 
   # GET /feeds
   # GET /feeds.json
