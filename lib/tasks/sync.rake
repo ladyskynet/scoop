@@ -84,9 +84,13 @@ namespace :sync do
 
           articleContent = mechanize.page.parser.css("p").text
           if articleContent 
-            sentimentalityScore = analyzer.score articleContent
-            totalReadability = Odyssey.flesch_kincaid_re(articleContent, true)
-
+            begin
+              sentimentalityScore = analyzer.score articleContent
+              totalReadability = Odyssey.flesch_kincaid_re(articleContent, true)
+            rescue => e
+              puts e.message
+              next
+            end
             attrs = totalReadability.select{ |k, v| newArticle.attributes.keys.include?(k) }.merge({
               wordcount: totalReadability['word_count'], 
               readability: totalReadability['score'], 
