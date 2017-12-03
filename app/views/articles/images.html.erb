@@ -29,11 +29,12 @@
           <% @images.each do |image| %>
             <% url3 =  "image/" + image.id.to_s + "#imagesShowAnchor"%>
             <li>
-              <a href=<%=url3%>>
-                <div class="thumb1">
-                  <img src="<%=image.url%>" class="thumb2"/>
-                </div>
-              </a>
+              <div class="thumb1">
+                <a href=<%=url3%>> <img src="<%=image.url%>" class="thumb2"/></a>
+                <center><h3>View Tags</h3></center>
+              </div>
+          
+              
             </li>
           <% end %>
         </ol>
