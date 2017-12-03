@@ -46,26 +46,40 @@ class FeedsController < ApplicationController
 
     @search = params[:search]
     #total_list = "Title, Author, Published, Word Count, Readability, Feed ID\n"
-    total_list = "Title, Author, Published, Word Count, Sentence Count,\n"
+    total_list = "Title, Author, Published, Word Count, Sentence Count, Letter Count, String Length, Average Syllables per Word, Average Words per Syllable\n"
     @from = params[:from]
     @to = params[:to]
     begin
-      start = DateTime.strptime(@from, "%m/%d/%Y")
-      last = DateTime.strptime(@to, "%m/%d/%Y")
-      last = last.change({ hour: 23, min: 59, sec: 59 })
+      puts 'begin'
+      unless @from.nil? or @to.nil?
+        puts "something was nil"
+        start = DateTime.strptime(@from, "%m/%d/%Y")
+        last = DateTime.strptime(@to, "%m/%d/%Y")
+        last = last.change({ hour: 23, min: 59, sec: 59 })
+      end
+      if @from.nil?
+        start = DateTime.new(1980, 1, 1, 0, 0, 0)
+      end
+      if @to.nil?
+        last = DateTime.now
+      end  
+      puts start
+      puts last
       @article_list = Array.new
       @feeds_selected.each do |feed|
         # Finds all articles that have relevant results
         @article_results = feed.articles.search_for(params[:search]).each {|article|}
         @article_results.each do |article_tiny|
-          if(article_tiny.published >= start && article_tiny.published <= last)
-            puts(article_tiny.published)
-            @article_list.push(article_tiny)
+          unless article_tiny.published.nil?  
+            if(article_tiny.published >= start && article_tiny.published <= last)
+              puts(article_tiny.published)
+              @article_list.push(article_tiny)
+            end
+            puts article_tiny.title
+            puts article_tiny.author
+            row_string = article_tiny.title.tap { |s| s.delete!(',') } + "," + article_tiny.author.tap { |s| s.delete!(',') } #+ "," + article_tiny.published.to_s # + "," + article_tiny.wordcount.to_s + "," + article_tiny.readability.to_s
+            total_list += row_string + "\n"
           end
-          puts article_tiny.title
-          puts article_tiny.author
-          row_string = article_tiny.title.tap { |s| s.delete!(',') } + "," + article_tiny.author.tap { |s| s.delete!(',') } #+ "," + article_tiny.published.to_s # + "," + article_tiny.wordcount.to_s + "," + article_tiny.readability.to_s
-          total_list += row_string + "\n"
         end
       end
       # send_data total_list, filename: "file.csv"
