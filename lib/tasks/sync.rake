@@ -61,7 +61,8 @@ namespace :sync do
 
           mechanize.get(entry.url)
           mechanize.page.images.each do |imageUrl|
-            imageUrl.to_s!.downcase!
+            newImageUrl = imageUrl.to_s
+            newImageUrl.downcase!
             puts imageUrl
             unless "thumb".in? imageUrl
               newImage = newArticle.photos.create(url: imageUrl)
