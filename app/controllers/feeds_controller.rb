@@ -14,6 +14,7 @@ class FeedsController < ApplicationController
   # GET /feeds/1
   # GET /feeds/1.json
   def show
+    @feed = Feed.find(params[:id])
   end
 
   # GET /feeds/new
@@ -23,8 +24,7 @@ class FeedsController < ApplicationController
 
   # GET /feeds/1/edit
   def edit
-    feed = Feed.find(params[:id])
-    @feed = feed
+    @feed = Feed.find(params[:id])
   end
 
   def welcome
@@ -47,7 +47,7 @@ class FeedsController < ApplicationController
 
     @search = params[:search]
     #total_list = "Title, Author, Published, Word Count, Readability, Feed ID\n"
-    total_list = "Title, Author\n"
+    total_list = "Title, Author, Published, Word Count, Sentence Count,\n"
     @from = params[:from]
     @to = params[:to]
     begin
@@ -76,7 +76,7 @@ class FeedsController < ApplicationController
       end
     rescue => error
       puts error
-      #redirect_to "/form_search#formSearchAnchor"
+      redirect_to "/form_search#formSearchAnchor"
     end
   end
 
@@ -114,21 +114,11 @@ class FeedsController < ApplicationController
       end
     end
   end
-        #@feed = Feed.new(feed_params)
-        
-        #respond_to do |format|
-        #    if @feed.save
-        #        format.html { redirect_to @feed, notice: 'Feed was successfully created.' }
-        #        format.json { render :show, status: :created, location: @feed }
-        #    else
-        #        format.html { render :new }
-        #        format.json { render json: @feed.errors, status: :unprocessable_entity }
-        #    end
-        #end
 
   # PATCH/PUT /feeds/1
   # PATCH/PUT /feeds/1.json
   def update
+    @feed = Feed.find(params[:id])
     respond_to do |format|
       if @feed.update(feed_params)
         flash[:success] = "Feed was succesfully updated."
@@ -144,7 +134,7 @@ class FeedsController < ApplicationController
   # DELETE /feeds/1
   # DELETE /feeds/1.json
   def destroy
-    @feed.destroy
+    Feed.find(params[:id]).destroy
     respond_to do |format|
       flash[:success] = "Feed was successfully destroyed."
       format.html { redirect_to feeds_url }
@@ -153,11 +143,6 @@ class FeedsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_feed
-      @feed = Feed.find(params[:id])
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def feed_params
       params.require(:feed).permit(:name, :url, :description)

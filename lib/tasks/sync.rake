@@ -8,8 +8,8 @@ require 'google/cloud/vision'
 require 'google/cloud/storage'
 
  # Your Google Cloud Platform project ID
-project_id = "scoop-187818"
-key_file   = {
+projectId = "scoop-187818"
+keyFile   = {
   "type": "service_account",
   "project_id": "scoop-187818",
   "private_key_id": "f95e3acc351fe3b532279ecc109e5117d2729e1d",
@@ -26,18 +26,13 @@ key_file   = {
 # Explicitly use service account credentials by specifying the private keyfile.
 #storage = Google::Cloud::Storage.new project: project_id, keyfile: key_file
 
-# Make an authenticated API request
-#storage.buckets.each do |bucket|
-#  puts bucket.name
-#end
-
-mechanize = Mechanize.new { |a|
-  a.post_connect_hooks << lambda { |_,_,response,_|
+mechanize = Mechanize.new do |a|
+  a.post_connect_hooks << lambda do |_,_,response,_|
     if response.content_type.nil? || response.content_type.empty?
       response.content_type = 'text/html'
     end
-  }
-}
+  end
+end
 
 # Create an instance for usage
 analyzer = Sentimental.new
@@ -50,56 +45,53 @@ namespace :sync do
     # On each feed do
     Feed.all.each do |feed|
  
-     # Fetch article content if URL exists
+      # Fetch article content if URL exists
       content = Feedjira::Feed.fetch_and_parse(feed.url)
       
       content.entries.each do |entry|
-        article_content = ""
-        local_entry = Article.find_by title: entry.title
-        if local_entry.nil?
+        articleContent = ""
+        
+        unless Article.exists?(title: entry.title) 
           p "Creating a new Article!"
-          local_entry = Article.new(author: entry.author, url: entry.url, published: entry.published, title: entry.title, feed_id: feed.id)
-          begin
-            local_entry.save!
-          rescue Exception => e
-            p e.message
+          newArticle = feed.articles.create!(author: entry.author, url: entry.url, published: entry.published, title: entry.title)
+          unless newArticle.save
+            p newArticle.errors.full_messages
+            return
           end
 
-          begin
-            mechanize.get(entry.url)
-            mechanize.page.images.each do |imageUrl|
-              newImage = Photo.new(url: imageUrl, article_id: local_entry)
-              begin
-                newImage.save!
-              rescue Exception => e
-                p e.message
-              end
-              # Instantiates a client
-              vision = Google::Cloud::Vision.new project: project_id, keyfile: key_file
-
-              # Performs label detection on the image file
-              labels = vision.image(imageUrl).labels
-              labels.each do |label|
-                newTag = Tag.new(name: label.description, photo_id: newImage.id)
-                newTag.save!
-              end
-              
-             
+          mechanize.get(entry.url)
+          mechanize.page.images.each do |imageUrl|
+            newImage = newArticle.photos.create(url: imageUrl)
+            unless newImage.save
+              p newImage.errors.full_messages
+              return
             end
-            #puts page.content
-          rescue Exception => e
-            p e.message
+            
+            # Instantiates a client
+            vision = Google::Cloud::Vision.new project: projectId, keyfile: keyFile
+
+            # Performs label detection on the image file
+            vision.image(imageUrl).labels.each do |label|
+              newTag = newImage.tags.create(name: label.description)
+              p newTag.errors.full_messages unless newTag.save
+            end
           end
 
-          mechanize.page.parser.class
-          # => Nokogiri::HTML::Document
+          articleContent = mechanize.page.parser.css("p").text
+          if articleContent 
+            sentimentalityScore = analyzer.score articleContent
+            totalReadability = Odyssey.flesch_kincaid_re(articleContent, true)
 
-          article_content = mechanize.page.parser.css("p").text
-          if article_content != "" 
-            sentimentality_score = analyzer.score article_content
-            total_readability = Odyssey.flesch_kincaid_re(article_content, true)
-            local_entry.update_attributes(wordcount: total_readability['word_count'], readability: total_readability['score'], content: article_content, string_length: total_readability['string_length'], letter_count: total_readability['letter_count'], syllable_count: total_readability['syllable_count'], sentence_count: total_readability['sentence_count'], average_words_per_sentence: total_readability['average_words_per_sentence'], average_syllables_per_word: total_readability['average_syllables_per_word'], sentimentality: sentimentality_score)  
+            attrs = totalReadability.select{ |k, v| newArticle.attributes.keys.include?(k) }.merge({
+              wordcount: totalReadability['word_count'], 
+              readability: totalReadability['score'], 
+              content: articleContent, 
+              sentimentality: sentimentalityScore
+            })
+
+            newArticle.update_attributes!(attrs)
           end
+        
         end
         p "Synced Entry - #{entry.title}"
       end
