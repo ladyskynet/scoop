@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 	get 'form_search' => 'feeds#form_search'
 	get 'search(:format)' => 'feeds#search'
 	get 'feeds/:id/edit(:format)' => 'feeds#edit'
+	get 'articles/:feedid' => 'articles#index'
 	get 'articles/:articleid/images' => 'articles#images'
 	get 'articles/:articleid/image/:id' => 'articles#showImage'
 	#get 'feeds/:feedid/articles/:id' => 'articles#show'

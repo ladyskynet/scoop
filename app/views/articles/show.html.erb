@@ -40,7 +40,7 @@
 						</tr>
 						<tr>
 							<td><strong>Images</strong></td>
-							<% url1 = "/articles/" + @article.id.to_s + "/images"%>
+							<% url1 = "/articles/" + @article.id.to_s + "/images#imagesIndexAnchor"%>
 							<td><a href=<%=url1%>>View All</a></td>
 						<tr>
 							<td><strong>Readability</strong></td>
@@ -93,7 +93,8 @@
 				<div class="row">
 					<div class="12u">
 						<ul class="actions">
-							<li><%= button_to 'Back', articles_path(@article.feed_id), method: :get%></li>
+							<% url1 = "/articles" + "?feedid=" + @article.feed_id.to_s + "#articlesIndexAnchor"%>
+							<li><%= button_to 'More Articles', url1, method: :get%></li>
 						</ul>
 					</div>
 				</div>

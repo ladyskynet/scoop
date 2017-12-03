@@ -90,8 +90,8 @@ class FeedsController < ApplicationController
             end
             puts article_tiny.title
             puts article_tiny.author
-            article_tiny
-            row_string =  [ article_tiny.title.tap { |s| s.delete!(',') },
+            unless article_tiny.author.nil? or article_tiny.title.nil?
+              row_string = [article_tiny.title.tap { |s| s.delete!(',') },
                             article_tiny.author.tap { |s| s.delete!(',') },  
                             article_tiny.published.to_s, 
                             article_tiny.wordcount.to_s, 
@@ -105,7 +105,8 @@ class FeedsController < ApplicationController
                             article_tiny.average_syllables_per_word.to_s,
                             article_tiny.average_words_per_sentence.to_s,
                             article_tiny.photos.count.to_s].reject(&:blank?).join(',')
-            total_list += row_string + "\n"
+              total_list += row_string + "\n"
+            end
           end
         end
       end
@@ -116,7 +117,7 @@ class FeedsController < ApplicationController
       end
     rescue => error
       puts error
-      #redirect_to "/form_search#formSearchAnchor"
+      redirect_to "/form_search#formSearchAnchor"
     end
   end
 

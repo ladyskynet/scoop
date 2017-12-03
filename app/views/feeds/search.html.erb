@@ -50,7 +50,8 @@
 			          				<tbody>
 		          						<% @article_list.each do |article| %>
 		          							<tr>
-								      			<td><%= link_to article.title, article %></td>
+		          								<% url1 = "/articles/" + article.id.to_s + "#articlesShowAnchor" %>
+								      			<td><%= link_to article.title, url1 %></td>
 								      			<td><%= article.author%></td>
 								      			<td><%= article.feed_id %></td>
 								      			<td><%= article.wordcount %></td>
