@@ -56,7 +56,7 @@ namespace :sync do
           newArticle = feed.articles.create!(author: entry.author, url: entry.url, published: entry.published, title: entry.title)
           unless newArticle.save
             p newArticle.errors.full_messages
-            return
+            next
           end
 
           mechanize.get(entry.url)
@@ -64,7 +64,7 @@ namespace :sync do
             newImage = newArticle.photos.create(url: imageUrl)
             unless newImage.save
               p newImage.errors.full_messages
-              return
+              next
             end
             
             # Instantiates a client
@@ -77,7 +77,7 @@ namespace :sync do
               end
             rescue => e
               puts e.message
-              return
+              next
             end
             
           end
