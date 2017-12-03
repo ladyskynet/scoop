@@ -76,7 +76,7 @@ class FeedsController < ApplicationController
       end
     rescue => error
       puts error
-      redirect_to "/form_search#formSearchAnchor"
+      #redirect_to "/form_search#formSearchAnchor"
     end
   end
 
