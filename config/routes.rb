@@ -1,14 +1,13 @@
 Rails.application.routes.draw do
-	resources :feeds do
-		member do
-			resources :articles, only: [:index, :show]
-		end
-	end 	
+	resources :feeds
+	resources :articles, only: [:index, :show, :images]	
 	get 'welcome' => 'feeds#welcome'
 	get 'form_search' => 'feeds#form_search'
 	get 'search(:format)' => 'feeds#search'
-	#get 'search' => 'feeds#search'
-	get 'feeds/:id/edit(:format)' => 'feeds#edit', as: 'edit_feed_path'
+	get 'feeds/:id/edit(:format)' => 'feeds#edit'
+	get 'articles/:articleid/images' => 'articles#images'
+	get 'articles/:articleid/image/:id' => 'articles#showImage'
+	#get 'feeds/:feedid/articles/:id' => 'articles#show'
 	get 'info' => 'feeds#info'
 	root 'feeds#welcome'
 

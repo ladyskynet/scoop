@@ -46,7 +46,20 @@ class FeedsController < ApplicationController
 
     @search = params[:search]
     #total_list = "Title, Author, Published, Word Count, Readability, Feed ID\n"
-    total_list = "Title, Author, Published, Word Count, Sentence Count, Letter Count, String Length, Average Syllables per Word, Average Words per Syllable\n"
+    total_list = "Title, 
+                  Author, 
+                  Published, 
+                  Word Count, 
+                  String Length, 
+                  Letter Count, 
+                  Readability, 
+                  Sentimentality,
+                  Sentence Count, 
+                  URL, 
+                  Syllable Count, 
+                  Average Syllables per Word, 
+                  Average Words per Sentence, 
+                  Number of Photos\n"
     @from = params[:from]
     @to = params[:to]
     begin
@@ -77,7 +90,21 @@ class FeedsController < ApplicationController
             end
             puts article_tiny.title
             puts article_tiny.author
-            row_string = article_tiny.title.tap { |s| s.delete!(',') } + "," + article_tiny.author.tap { |s| s.delete!(',') } #+ "," + article_tiny.published.to_s # + "," + article_tiny.wordcount.to_s + "," + article_tiny.readability.to_s
+            article_tiny
+            row_string =  [ article_tiny.title.tap { |s| s.delete!(',') },
+                            article_tiny.author.tap { |s| s.delete!(',') },  
+                            article_tiny.published.to_s, 
+                            article_tiny.wordcount.to_s, 
+                            article_tiny.string_length.to_s,
+                            article_tiny.letter_count.to_s,
+                            article_tiny.readability.to_s,
+                            article_tiny.sentimentality.to_s,
+                            article_tiny.sentence_count.to_s,
+                            article_tiny.url,
+                            article_tiny.syllable_count.to_s,
+                            article_tiny.average_syllables_per_word.to_s,
+                            article_tiny.average_words_per_sentence.to_s,
+                            article_tiny.photos.count.to_s].reject(&:blank?).join(',')
             total_list += row_string + "\n"
           end
         end
@@ -132,14 +159,30 @@ class FeedsController < ApplicationController
   # PATCH/PUT /feeds/1.json
   def update
     @feed = Feed.find(params[:id])
+    results = Feed.all.search_url(feed_params[:url])
     respond_to do |format|
-      if @feed.update(feed_params)
-        flash[:success] = "Feed was succesfully updated."
-        format.html { redirect_to @feed }
-        format.json { render :show, status: :ok, location: @feed }
-      else
-        format.html { render :edit }
+      if results.present? and results[0] != @feed.id
+        puts results[0]
+        #format.html { render :new, notice: 'That url has already been used for a previous feed' }
+        flash[:danger] = "That URL has already been used. Please use a unique URL."
+        format.html { redirect_to @feed}
         format.json { render json: @feed.errors, status: :unprocessable_entity }
+      else
+        if Feed.validate_feed(feed_params[:url])
+          if @feed.update(feed_params)
+            flash[:success] = "Feed was succesfully updated."
+            format.html { redirect_to @feed}
+            format.json { render :show, status: :ok, location: @feed }
+          else
+            format.html { render :edit }
+            format.json { render json: @feed.errors, status: :unprocessable_entity }
+          end
+        else
+          #Gives an error if rss feed is not valid
+          flash[:danger] = "The entered URL is not a valid RSS feed."
+          format.html { redirect_to @feed }
+          format.json { render json: @feed.errors, status: :unprocessable_entity }
+        end
       end
     end
   end

@@ -11,7 +11,7 @@
 		<ul>
 			<li><a href="/feeds#feedsIndexAnchor">Feeds</a></li>
 			<li><a href="/form_search#formSearchAnchor">Search</a></li>
-			<li><a href="/feeds/2/articles">Explore</a></li>
+			<li><a href="/articles#articlesIndexAnchor">Explore</a></li>
 			<li><a href="/">Home</a></li>
 		</ul>
 	</nav>
@@ -51,13 +51,16 @@
                 			<input type="text" id="to" name="to" placeholder="End Date">
                 		</div>
                 	</div>
-
+                	<br><br>
+            		<ul class="actions">
+                    	<li><%= submit_tag "Search", :name => nil %></li>
+                    </ul>
                 	<script>
                 		var from = $( "#from" ).datepicker({maxDate: '0'});
                 		var to = $("#to" ).datepicker({maxDate: '0'});    
                 	</script>
-                	</label><br>
-                	<label for="tableoffeeds">RSS Feeds</label>
+
+                	<label for="tableoffeeds">Select RSS Feeds</label>
                 	<div class="row">
                 		<div class="table-wrapper">
         					<tbody>
@@ -73,10 +76,6 @@
             				</tbody>
             			</div>
             		</div>
-            		<br>
-            		<ul class="actions">
-                    	<li><%= submit_tag "Search", :name => nil %></li>
-                    </ul>
                 <% end %>
 			</div>
 		</section>

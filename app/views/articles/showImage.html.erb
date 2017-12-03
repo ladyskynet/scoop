@@ -1,7 +1,7 @@
 <!-- Header -->
 <div id="header">
 	<!--<span class="logo icon fa-paper-plane-o"></span>-->
-	<img src="../images/scoop.png" height="125" width="125"> 
+	<img src="../../../images/scoop.png" height="125" width="125"> 
 	<h1>Scoop</h1>
 	<p>A custom RSS reader. </p>
 	<nav>
@@ -14,17 +14,40 @@
 	</nav>
 </div>
 
-<a id="feedsNewAnchor">
 <!-- MAIN --> 
+<a id="imagesShowAnchor">
 <div id="main"></a>
 	<div class="box container">
 		<section>
 			<header>
-				<h3>New Feed</h3>
+				<h3>Image Tags</h3>
+					
 			</header>
-			<div>
-				<%= render 'form', feed: @feed %>
+
+			<center><img src="<%=@image.url%>"/></center><br><br>
+			<h3>Our Best Guesses</h3>
+			<div class="table-wrapper">
+				<table class="default">
+					<tbody>
+						<% @tags.each do |tag| %>
+							<tr>
+								<td><strong><%= tag.name %></strong></td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
 			</div>
+
+					
+				<div class="row">
+					<div class="12u">
+						<ul class="actions">
+							<% url1 = "/articles/" + @image.article.id.to_s + "/images#imagesIndexAnchor" %>
+							<li><a href=<%=url1 %>>Back</a></li>
+						</ul>
+					</div>
+				</div>
+
 		</section>
 	</div>
 </div>

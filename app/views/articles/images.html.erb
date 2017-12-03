@@ -13,29 +13,32 @@
   </nav>
 </div>
 
-<a id="articlesIndexAnchor">
+<a id="imagesIndexAnchor">
 <!-- Main -->
 <div id="main"></a>
   <!-- TABLE SECTION-->
   <section>
 		<p id="notice"><%= notice %></p>
 		<div class="box container">
-				<header>
-  				<h2>Articles</h2>
-				</header>
-				
-          <% @articles.each do |article| %>
-            <% url3 = article_path(article) + "#articlesShowAnchor"%>
-            <%= link_to article.title, url3 %> - <i> published <%= time_ago_in_words(article.published) %> ago.</i> <br>
-				  <% end %>
-       <br>
-        <ul class="actions">
-          <% url1 = form_search_path + "#formSearchAnchor"%>
-          <% url2 = feeds_path + "#feedsIndexAnchor"%>
-          <li><%= button_to 'Search', url1, method: :get %></li>
-          <li><%= button_to 'Back', url2, method: :get, class: 'alt' %></li>
-        </ul>
-		</div>
+			<header>
+				<h2>Images</h2>
+        <p><%=@article.title%></p>
+			</header>
+      <div>
+        <ol>
+          <% @images.each do |image| %>
+            <% url3 =  "image/" + image.id.to_s + "#imagesShowAnchor"%>
+            <li>
+              <a href=<%=url3%>>
+                <div class="thumb1">
+                  <img src="<%=image.url%>" class="thumb2"/>
+                </div>
+              </a>
+            </li>
+          <% end %>
+        </ol>
+      </div>
+    </div>
 	</section>
 </div>
 <!-- Footer -->

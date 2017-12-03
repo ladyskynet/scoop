@@ -8,45 +8,88 @@
 		<ul>
 			<li><a href="/feeds#feedsIndexAnchor">Feeds</a></li>
 			<li><a href="/form_search#formSearchAnchor">Search</a></li>
-			<li><a href="/feeds/2/articles">Explore</a></li>
+			<li><a href="/articles#articlesIndexAnchor">Explore</a></li>
 			<li><a href="/">Home</a></li>
 		</ul>
 	</nav>
 </div>
 
 <!-- MAIN --> 
-<div id="main">
+<a id="articlesShowAnchor">
+<div id="main"></a>
 	<div class="box container">
 		<section>
 			<header>
-				<h3><%=@article.title%> by <%=@article.author%></h3>
+				<h3><%=@article.title%></h3>
+					<p>by <%=@article.author%></p>
 			</header>
-			<form method="post" action="#">
-				<div class="row">
-					<div class="12u">
-						<label for="title">Title</label>
-						<input class="text" type="text" name="title" id="title" value="<%=@article.title%>" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="12u">
-						<label for="author">Author</label>
-						<input class="text" type="text" name="author" id="author" value="<%=@article.author%>" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="12u">
-						<label for="published">Published</label>
-						<input class="text" type="text" name="published" id="published" value="<%=@article.published%>" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="12u">
-						<label for="content">Content</label>
-						<textarea name="content" rows="6"><%= @article.content %></textarea>
-					</div>
-				</div>
+			<div class="table-wrapper">
+				<table class="default">
+					<tbody>
+						<tr>
+							<td><strong>Title</strong></td>
+							<td><%=@article.title%></td>
+						</tr>
+						<tr>
+							<td><strong>Author</strong></td>
+							<td><%=@article.author%></td>
+						</tr>
+						<tr>
+							<td><strong>Published</strong></td>
+							<td><%=@article.published%></td>
+						</tr>
+						<tr>
+							<td><strong>Images</strong></td>
+							<% url1 = "/articles/" + @article.id.to_s + "/images"%>
+							<td><a href=<%=url1%>>View All</a></td>
+						<tr>
+							<td><strong>Readability</strong></td>
+							<td><%=@article.readability%></td>
+						</tr>
+						<tr>
+							<td><strong>Word Count</strong></td>
+							<td><%=@article.wordcount%></td>
+						</tr>
+						<tr>
+							<td><strong>Sentimentality</strong></td>
+							<td><%=@article.sentimentality%></td>
+						</tr>
+						<tr>
+							<td><strong>String Length</strong></td>
+							<td><%=@article.string_length%></td>
+						</tr>
+						<tr>
+							<td><strong>Letter Count</strong></td>
+							<td><%=@article.letter_count%></td>
+						</tr>
+						<tr>
+							<td><strong>Sentence Count</strong></td>
+							<td><%=@article.sentence_count%></td>
+						</tr>
+						<tr>
+							<td><strong>Syllable Count</strong></td>
+							<td><%=@article.syllable_count%></td>
+						</tr>
+						<tr>
+							<td><strong>Average Syllables per Word</strong></td>
+							<td><%=@article.average_syllables_per_word%></td>
+						</tr>
+						<tr>
+							<td><strong>Average Words per Sentence</strong></td>
+							<td><%=@article.average_words_per_sentence%></td>
+						</tr>
 
+					</tbody>
+				</table>
+			</div>
+			<div class="row">
+				<div class="12u" style="border-width: 1px; border-radius: 4px;">
+						<p><strong>Content</strong></p>
+						<p><%= @article.content %></p>
+				</div>
+			</div>
+
+					
 				<div class="row">
 					<div class="12u">
 						<ul class="actions">
@@ -54,7 +97,7 @@
 						</ul>
 					</div>
 				</div>
-			</form>
+
 		</section>
 	</div>
 </div>
