@@ -4,9 +4,8 @@ class Article < ApplicationRecord
 	belongs_to :feed
 	has_many :taggings
 	has_many :tags, through: :taggings
-    scoped_search on: [:title]
-
- 
+  has_many :photos
+  scoped_search on: [:title]
 
 	#def all_tags=(names)
   	#	self.tags = names.split(",").map do |name|

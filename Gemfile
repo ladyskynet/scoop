@@ -18,18 +18,17 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-gem 'auto_tagging'
-gem 'open_calais'
 gem 'feedjira'
 gem 'scoped_search'
 gem 'feedvalidator'
 gem 'odyssey'
 gem 'open_uri_redirections'
-gem 'words_counted'
 gem 'mechanize'
 gem 'twitter-bootstrap-rails'
-gem 'paperclip'
 gem 'sentimental'
+gem 'google-api-client'
+gem 'google-cloud-vision'
+gem 'google-cloud-storage'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'

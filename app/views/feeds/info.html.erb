@@ -4,14 +4,24 @@
 	<img src="../images/scoop.png" height="125" width="125"> 
 	<h1>Scoop</h1>
 	<p>A custom RSS reader.</p>
+	<nav>
+		<ul>
+			<li><a href="/feeds#feedsIndexAnchor">Feeds</a></li>
+			<li><a href="/form_search#formSearchAnchor">Search</a></li>
+			<li><a href="/feeds/2/articles#articlesIndexAnchor">Explore</a></li>
+			<li><a href="/">Home</a></li>
+		</ul>
+	</nav>
 </div>
 
+<a id="infoAnchor">
 <!-- MAIN --> 
-<div id="main">
+<div id="main"></a>
 	<div class="box container">
 		<section>
 
 			<header>
+
 				<% flash.each do |key, value| %>
 					<div class="alert alert-<%= key %> alert-dismissible">
 					<!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
@@ -22,6 +32,7 @@
 				<section>
 				<header>
 					<h3>Query Language</h3>
+					
 				</header>
 				<div class="table-wrapper">
 					<table class="default">
@@ -67,7 +78,8 @@
 						</tbody>
 					</table>
 				</div>
-				<%= button_to 'Back', form_search_path, method: :get %>
+				<%url = form_search_path + "#formSearchAnchor"%>
+				<%= button_to 'Back', url, method: :get %>
 			</section>
 			</header>
 			
@@ -77,42 +89,8 @@
 <!-- Footer -->
 <div id="footer">
 	<div class="container 75%">
-
 		<header class="major last">
-			<h2>Questions or comments?</h2>
+			<h2>Made by the Supreme Team for CS499.</h2>
 		</header>
-
-		<p>Send us a message.</p>
-
-		<form method="post" action="#">
-			<div class="row">
-				<div class="6u 12u(mobilep)">
-					<input type="text" name="name" placeholder="Name" />
-				</div>
-				<div class="6u 12u(mobilep)">
-					<input type="email" name="email" placeholder="Email" />
-				</div>
-			</div>
-			<div class="row">
-				<div class="12u">
-					<textarea name="message" placeholder="Message" rows="6"></textarea>
-				</div>
-			</div>
-			<div class="row">
-				<div class="12u">
-					<ul class="actions">
-						<li><input type="submit" value="Send Message" /></li>
-					</ul>
-				</div>
-			</div>
-		</form>
-
-		<ul class="icons">
-			<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-			<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-			<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-			<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
-			<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
-		</ul>
 	</div>
 </div>

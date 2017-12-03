@@ -26,8 +26,11 @@
     <%= form.text_area :description, id: :feed_description %>
   </div>
 
+  <% url1 = "/feeds/show/" + @feed.to_s + "#feedsShowAnchor"%>
+  <% url2 = feeds_path + "#feedsIndexAnchor"%>
+
   <ul class="actions">
     <li><%= form.submit %></li>
-    <li><%= button_to 'Back', feeds_path, method: :get %></li>
+    <li><%= button_to 'Back', url2, method: :get %></li>
   </ul>
 <% end %>

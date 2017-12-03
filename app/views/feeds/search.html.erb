@@ -4,19 +4,21 @@
 	<img src="../images/scoop.png" height="125" width="125"> 
 	<h1>Scoop</h1>
 	<p>A custom RSS reader. </p>
+	<nav>
+		<ul>
+			<li><a href="/feeds">Feeds</a></li>
+			<li><a href="/form_search">Search</a></li>
+			<li><a href="/feeds/2/articles">Explore</a></li>
+			<li><a href="/">Home</a></li>
+		</ul>
+	</nav>
 </div>
 
 <!-- MAIN --> 
 <div id="main">
 	<div class="box container">
 		<section>
-			<header>
-				<h3>Results</h3>
-			</header>
 			<div>
-				<% puts ("html stuff: "+@search) %>
-				<% puts @selected%> <!-- is an array here -->
-				<% puts search_path(format: :csv)%>
 				<%= form_tag(search_path+".csv", :method => "get", id: "search-form") do %>
 					<%= hidden_field_tag 'search', @search %>
 					<% @selected.each do |feed| %>
@@ -25,35 +27,42 @@
               					<% check_box_tag :"selected[]", feed, true %>
             				</tr>
             		<% end %>
-            		<ul class="actions">
-                    	<li><%= submit_tag "Save to CSV", :name => nil %></li>
-                    </ul>
-                <% end %>
-				
-    			<!-- Creates search box user can type queries into-->
-    			<div class="table-wrapper">
-    				<table class="default">
-      					<thead>
-        					<tr>
-          						<th>Title</th>
-          						<th>Author</th>
-          						<th>Feed ID</th>
-          						<th>Word Count</th>
-          						<th colspan="3"></th>
-          					</tr>
-          				</thead>
-          				<tbody>
-          					<% @article_list.each do |article| %>
-          					<tr>
-						      <td><%= link_to article.title, article %></td>
-						      <td><%= article.author%></td>
-						      <td><%= article.feed_id %></td>
-						      <td><%= article.wordcount %></td>
-						    </tr>
-			                <% end %>
-			            </tbody>
-			        </table>
-			    </div>
+                
+	    			<!-- Creates search box user can type queries into-->
+	    			<%if !@article_list.nil?%>
+	    				<header>
+							<h3>Results</h3>
+						</header>
+	    				<ul class="actions">
+                    		<li><%= submit_tag "Save to CSV", :name => nil %></li>
+                    	</ul>
+		    			<div class="table-wrapper">
+		    				<table class="default">
+		      					<thead>
+		        					<tr>
+		          						<th>Title</th>
+		          						<th>Author</th>
+		          						<th>Feed ID</th>
+		          						<th>Word Count</th>
+		          						<th colspan="3"></th>
+		          					</tr>
+		          				</thead>
+		          				<tbody>
+	          						<% @article_list.each do |article| %>
+	          						<tr>
+							      		<td><%= link_to article.title, article %></td>
+							      		<td><%= article.author%></td>
+							      		<td><%= article.feed_id %></td>
+							      		<td><%= article.wordcount %></td>
+							    	</tr>
+				                	<% end %>
+				            	</tbody>
+				        	</table>
+				    	</div>
+				    <%else%>
+				    	<h3>Oh no! No results found. Try <a href="/form_search#formSearchAnchor">again</a>?</h3>
+				    <% end %>
+			    <% end %>
 			</div>
 		</section>
 	</div>
@@ -62,40 +71,7 @@
 <div id="footer">
 	<div class="container 75%">
 		<header class="major last">
-			<h2>Questions or comments?</h2>
+			<h2>Made by the Supreme Team for CS499.</h2>
 		</header>
-
-		<p>Send us a message.</p>
-
-		<form method="post" action="#">
-			<div class="row">
-				<div class="6u 12u(mobilep)">
-					<input type="text" name="name" placeholder="Name" />
-				</div>
-				<div class="6u 12u(mobilep)">
-					<input type="email" name="email" placeholder="Email" />
-				</div>
-			</div>
-			<div class="row">
-				<div class="12u">
-					<textarea name="message" placeholder="Message" rows="6"></textarea>
-				</div>
-			</div>
-			<div class="row">
-				<div class="12u">
-					<ul class="actions">
-						<li><input type="submit" value="Send Message" /></li>
-					</ul>
-				</div>
-			</div>
-		</form>
-
-		<ul class="icons">
-			<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-			<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-			<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-			<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
-			<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
-		</ul>
 	</div>
 </div>

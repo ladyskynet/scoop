@@ -74,8 +74,9 @@ class FeedsController < ApplicationController
         format.html
         format.csv { send_data total_list, filename: "file.csv" }
       end
-    rescue
-      redirect_to "/form_search"
+    rescue => error
+      puts error
+      #redirect_to "/form_search#formSearchAnchor"
     end
   end
 
