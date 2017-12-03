@@ -63,8 +63,8 @@ namespace :sync do
           mechanize.page.images.each do |imageUrl|
             newImageUrl = imageUrl.to_s
             newImageUrl.downcase!
-            puts imageUrl
-            unless "thumb".in? imageUrl
+            puts newImageUrl
+            unless newImageUrl.include? "thumb"
               newImage = newArticle.photos.create(url: imageUrl)
               unless newImage.save
                 p newImage.errors.full_messages
