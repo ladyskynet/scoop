@@ -61,7 +61,7 @@ namespace :sync do
 
           mechanize.get(entry.url)
           mechanize.page.images.each do |imageUrl|
-            if (imageUrl =~ /thumb/i).nil?
+            unless imageUrl =~ /thumb/i
               newImage = newArticle.photos.create(url: imageUrl)
               unless newImage.save
                 p newImage.errors.full_messages
