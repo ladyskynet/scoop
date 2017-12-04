@@ -50,6 +50,7 @@ namespace :sync do
         content = Feedjira::Feed.fetch_and_parse(feed.url)
       rescue => error
         puts error
+        next
       end
       content.entries.each do |entry|
         articleContent = ""
