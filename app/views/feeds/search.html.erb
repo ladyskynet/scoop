@@ -29,6 +29,10 @@
         					</tr>
         				<% end %>
 
+        				<% puts "HELP" + @from %>
+        				<input type="hidden" name="from" id="from" value=<%=@from%> >
+        				<input type="hidden" name="to" id="to" value=<%=@to%> >
+
         				<% unless @article_list.empty?%>
 		    				<header>
 								<h3>Results</h3>

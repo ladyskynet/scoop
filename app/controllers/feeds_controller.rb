@@ -43,41 +43,28 @@ class FeedsController < ApplicationController
     rescue
       @feeds_selected = Feed.all
     end
-
     @search = params[:search]
     #total_list = "Title, Author, Published, Word Count, Readability, Feed ID\n"
-    total_list = "Title, 
-                  Author, 
-                  Published, 
-                  Word Count, 
-                  String Length, 
-                  Letter Count, 
-                  Readability, 
-                  Sentimentality,
-                  Sentence Count, 
-                  URL, 
-                  Syllable Count, 
-                  Average Syllables per Word, 
-                  Average Words per Sentence, 
-                  Number of Photos\n"
+    total_list = "Title, Author, Published, Word Count, String Length, Letter Count, Readability, Sentimentality, Sentence Count, URL, Syllable Count, Average Syllables per Word, Average Words per Sentence, Number of Photos\n"
     @from = params[:from]
     @to = params[:to]
     begin
       start =
-        if @from.empty?
-          puts "hello"
-          DateTime.new(2001,2,3,4,5,6)
-        else
-          DateTime.strptime(@from, "%m/%d/%Y")
+        unless @from.nil?
+          if @from.empty?
+            DateTime.new(2001,2,3,4,5,6)
+          else
+            DateTime.strptime(@from, "%m/%d/%Y")
+          end
         end
       last =
-        if @to.empty?
-          DateTime.now
-        else
-          DateTime.strptime(@to, "%m/%d/%Y").change({ hour: 23, min: 59, sec: 59 })
+        unless @to.nil?
+          if @to.empty?
+            DateTime.now
+          else
+            DateTime.strptime(@to, "%m/%d/%Y").change({ hour: 23, min: 59, sec: 59 })
+          end
         end
-      puts start
-      puts last
       @article_list = Array.new
       @feeds_selected.each do |feed|
  
@@ -86,13 +73,13 @@ class FeedsController < ApplicationController
 
         @article_results.each do |article_tiny|
           unless article_tiny.published.nil?
-            puts article_tiny  
+            #puts article_tiny  
             if(article_tiny.published >= start && article_tiny.published <= last)
-              puts(article_tiny.published)
+              #puts(article_tiny.published)
               @article_list.push(article_tiny)
             end
-            puts article_tiny.title
-            puts article_tiny.author
+            #puts article_tiny.title
+            #puts article_tiny.author
             unless article_tiny.author.nil? or article_tiny.title.nil?
               row_string = [article_tiny.title.tap { |s| s.delete!(',') },
                             article_tiny.author.tap { |s| s.delete!(',') },  
