@@ -87,13 +87,13 @@ class FeedsController < ApplicationController
                             article_tiny.wordcount.to_s, 
                             article_tiny.string_length.to_s,
                             article_tiny.letter_count.to_s,
-                            article_tiny.readability.round(2).to_s,
-                            article_tiny.sentimentality.round(2).to_s,
+                            article_tiny.readability.to_s,
+                            article_tiny.sentimentality.to_s,
                             article_tiny.sentence_count.to_s,
                             article_tiny.url,
                             article_tiny.syllable_count.to_s,
-                            article_tiny.average_syllables_per_word.round(2).to_s,
-                            article_tiny.average_words_per_sentence.round(2).to_s,
+                            article_tiny.average_syllables_per_word.to_s,
+                            article_tiny.average_words_per_sentence.to_s,
                             article_tiny.photos.count.to_s].reject(&:blank?).join(',')
               total_list += row_string + "\n"
             end
