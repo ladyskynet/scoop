@@ -46,8 +46,11 @@ namespace :sync do
     Feed.all.each do |feed|
  
       # Fetch article content if URL exists
-      content = Feedjira::Feed.fetch_and_parse(feed.url)
-      
+      begin 
+        content = Feedjira::Feed.fetch_and_parse(feed.url)
+      rescue => error
+        puts error
+      end
       content.entries.each do |entry|
         articleContent = ""
         
