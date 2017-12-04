@@ -68,8 +68,7 @@ namespace :sync do
             newImageUrl = imageUrl.to_s
             newImageUrl.downcase!
             unless newImageUrl.include? "thumb"
-              puts "no thumbs"
-              newImage = newArticle.photos.create(url: imageUrl)
+              newImage = newArticle.photos.create(url: newImageUrl)
               unless newImage.save
                 p newImage.errors.full_messages
                 next
@@ -83,7 +82,7 @@ namespace :sync do
               vision.image(imageUrl).labels.each do |label|
                 newTag = Tag.find_or_create_by(name: label.description)
                 p newTag.errors.full_messages unless newTag.save
-                newTag.photo = newImage 
+                newImage.tags << newTag
               end
             rescue => e
               puts e.message
