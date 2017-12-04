@@ -63,18 +63,21 @@ class FeedsController < ApplicationController
     @from = params[:from]
     @to = params[:to]
     begin
-      unless (@from.nil? or @to.nil?)
-        start = DateTime.strptime(@from, "%m/%d/%Y")
-        last = DateTime.strptime(@to, "%m/%d/%Y")
-        last = last.change({ hour: 23, min: 59, sec: 59 })
-      end
-      if @from.nil?
-        start = DateTime.new(1980, 1, 1, 0, 0, 0)
-      end
-      if @to.nil?
-        last = DateTime.now
-      end  
-
+      start =
+        if @from.empty?
+          puts "hello"
+          DateTime.new(2001,2,3,4,5,6)
+        else
+          DateTime.strptime(@from, "%m/%d/%Y")
+        end
+      last =
+        if @to.empty?
+          DateTime.now
+        else
+          DateTime.strptime(@to, "%m/%d/%Y").change({ hour: 23, min: 59, sec: 59 })
+        end
+      puts start
+      puts last
       @article_list = Array.new
       @feeds_selected.each do |feed|
  
