@@ -63,8 +63,8 @@ namespace :sync do
           mechanize.page.images.each do |imageUrl|
             newImageUrl = imageUrl.to_s
             newImageUrl.downcase!
-            puts newImageUrl
             unless newImageUrl.include? "thumb"
+              puts "no thumbs"
               newImage = newArticle.photos.create(url: imageUrl)
               unless newImage.save
                 p newImage.errors.full_messages
@@ -79,7 +79,7 @@ namespace :sync do
               vision.image(imageUrl).labels.each do |label|
                 newTag = Tag.find_or_create_by(name: label.description)
                 p newTag.errors.full_messages unless newTag.save
-                newImage.tags << newTag 
+                newTag.photo = newImage 
               end
             rescue => e
               puts e.message
