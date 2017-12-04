@@ -102,7 +102,7 @@ class FeedsController < ApplicationController
           end
         end
       end
-      @similarity_list = similarityCheck(@article_list)
+      @similarity_list = similarityCheck(@article_list) # NEW FOR TWIST
 
       respond_to do |format|
         format.html
@@ -114,6 +114,7 @@ class FeedsController < ApplicationController
     end
   end
 
+  # THIS ENTIRE METHOD IS FOR THE TWIST
   def similarityCheck(articleList)
     corpus = []
     contentList = []

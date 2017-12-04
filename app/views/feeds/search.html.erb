@@ -61,6 +61,7 @@
 								      			<td><%= article.author%></td>
 								      			<td><%= article.feed_id %></td>
 								      			<td><%= article.wordcount %></td>
+								      			<!-- THIS LINE BELOW IS FOR THE TWIST -->
 								      			<td><%= @similarity_list[thing].round(2).to_s + "%" %></td>
 								    		</tr>
 								    		<% thing = thing + 1 %>
