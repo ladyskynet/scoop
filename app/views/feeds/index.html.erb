@@ -27,6 +27,10 @@
         <% end %>
         <h2>RSS Feeds</h2>
       </header>
+      <ul class="actions">
+        <%url1 = new_feed_path + "#feedsNewAnchor"%>
+        <li><%= button_to 'New Feed', url1, method: :get %></li>
+      </ul>
       <% unless @feeds.empty? %>
         <div class="table-wrapper">
           <table class="default">
@@ -60,11 +64,6 @@
         <h4>Add some feeds to see them here!</h4>
       <% end %>
       <br>
-      <ul class="actions">
-
-        <%url1 = new_feed_path + "#feedsNewAnchor"%>
-        <li><%= button_to 'New Feed', url1, method: :get %></li>
-      </ul>
     </div>
   </section>
 </div>

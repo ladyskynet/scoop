@@ -29,6 +29,7 @@ gem 'sentimental'
 gem 'google-api-client'
 gem 'google-cloud-vision'
 gem 'google-cloud-storage'
+gem 'tf-idf-similarity'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'

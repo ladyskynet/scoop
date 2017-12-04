@@ -1,5 +1,7 @@
 require 'csv'
 require 'date'
+require 'tf-idf-similarity'
+require 'matrix'
 #require date necessary at top of file
 
 class FeedsController < ApplicationController
@@ -100,6 +102,7 @@ class FeedsController < ApplicationController
           end
         end
       end
+      @similarity_list = similarityCheck(@article_list)
 
       respond_to do |format|
         format.html
@@ -109,6 +112,41 @@ class FeedsController < ApplicationController
       puts error
       redirect_to "/form_search#formSearchAnchor"
     end
+  end
+
+  def similarityCheck(articleList)
+    corpus = []
+    contentList = []
+    count = 0
+    firstInsert = nil
+
+    #loop to load the corpus and record the content put into it for their indexes
+    articleList.each do |article|
+      unless article.content.empty? or article.content.nil?
+        toInsert = TfIdfSimilarity::Document.new(article.content)
+        if count == 0
+          firstInsert = toInsert
+          #remeber the first one inserted
+        else
+          contentList.push(toInsert)
+          #put the rest in the contentList
+        end
+        count += 1 
+        corpus.push(toInsert)
+      end
+    end
+
+    #create the similarity matrix
+    model = TfIdfSimilarity::TfIdfModel.new(corpus)
+    simmatrix = model.similarity_matrix
+    
+    similarityList = []
+    similarityList.push(100)
+    #fill the similarity array of the articles
+    contentList.each do |article2|
+      similarityList.push(100*simmatrix[model.document_index(firstInsert), model.document_index(article2)])
+    end
+    return similarityList
   end
 
   # POST /feeds
