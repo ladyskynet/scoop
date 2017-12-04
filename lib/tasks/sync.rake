@@ -93,7 +93,7 @@ namespace :sync do
           end
 
           articleContent = mechanize.page.parser.css("p").text
-          if articleContent 
+          unless articleContent.empty? 
             begin
               sentimentalityScore = analyzer.score articleContent
               totalReadability = Odyssey.flesch_kincaid_re(articleContent, true)
