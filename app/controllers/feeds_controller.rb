@@ -191,28 +191,33 @@ class FeedsController < ApplicationController
     @feed = Feed.find(params[:id])
     results = Feed.all.search_url(feed_params[:url])
     respond_to do |format|
-      if results.present? and results[0] != @feed.id
-        puts results[0]
-        #format.html { render :new, notice: 'That url has already been used for a previous feed' }
-        flash[:danger] = "That URL has already been used. Please use a unique URL."
-        format.html { redirect_to @feed}
-        format.json { render json: @feed.errors, status: :unprocessable_entity }
-      else
-        if Feed.validate_feed(feed_params[:url])
-          if @feed.update(feed_params)
-            flash[:success] = "Feed was succesfully updated."
-            format.html { redirect_to @feed}
-            format.json { render :show, status: :ok, location: @feed }
+      if params[:id].to_i > 76
+        if results.present? and results[0] != @feed.id
+          puts results[0]
+          flash[:danger] = "That URL has already been used. Please use a unique URL."
+          format.html { redirect_to @feed}
+          format.json { render json: @feed.errors, status: :unprocessable_entity }
+        else
+          if Feed.validate_feed(feed_params[:url])
+            if @feed.update(feed_params)
+              flash[:success] = "Feed was succesfully updated."
+              format.html { redirect_to @feed}
+              format.json { render :show, status: :ok, location: @feed }
+            else
+              format.html { render :edit }
+              format.json { render json: @feed.errors, status: :unprocessable_entity }
+            end
           else
-            format.html { render :edit }
+            # Gives an error if rss feed is not valid
+            flash[:danger] = "The entered URL is not a valid RSS feed."
+            format.html { redirect_to @feed }
             format.json { render json: @feed.errors, status: :unprocessable_entity }
           end
-        else
-          #Gives an error if rss feed is not valid
-          flash[:danger] = "The entered URL is not a valid RSS feed."
-          format.html { redirect_to @feed }
-          format.json { render json: @feed.errors, status: :unprocessable_entity }
         end
+      else
+        flash[:danger] = "This is a default feed and cannot be edited."
+        format.html { redirect_to @feed }
+        format.json { render json: @feed.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -222,9 +227,15 @@ class FeedsController < ApplicationController
   def destroy
     Feed.find(params[:id]).destroy
     respond_to do |format|
-      flash[:success] = "Feed was successfully destroyed."
-      format.html { redirect_to feeds_url }
-      format.json { head :no_content }
+      if Feed.find(params[:id]) > 76
+        flash[:success] = "Feed was successfully destroyed."
+        format.html { redirect_to feeds_url }
+        format.json { head :no_content }
+      else
+        flash[:danger] = "This is a default feed and cannot be deleted."
+        format.html { redirect_to @feed }
+        format.json { render json: @feed.errors, status: :unprocessable_entity }
+      end
     end
   end
 
