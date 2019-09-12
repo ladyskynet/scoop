@@ -80,7 +80,7 @@ GEM
       loofah (>= 2.0)
       sax-machine (>= 1.0)
     feedvalidator (0.2.1)
-    ffi (1.9.18)
+    ffi (1.11.1)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     google-api-client (0.17.3)
